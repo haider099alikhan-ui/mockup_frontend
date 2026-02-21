@@ -154,6 +154,20 @@ function ProjectsPage() {
                     <div className="flex items-center gap-3">
                         <button
                             type="button"
+                            onClick={() => navigate('/policies')}
+                            className="hidden text-sm font-medium text-gray-500 transition-colors hover:text-gray-900 sm:block"
+                        >
+                            Policies
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate('/app-ads')}
+                            className="hidden text-sm font-medium text-gray-500 transition-colors hover:text-gray-900 sm:block"
+                        >
+                            App-Ads.txt
+                        </button>
+                        <button
+                            type="button"
                             onClick={() => navigate('/pricing')}
                             className="hidden text-sm font-medium text-gray-500 transition-colors hover:text-gray-900 sm:block"
                         >

@@ -16,6 +16,8 @@ const SavedDesignsPage = lazy(() => import('./pages/SavedDesignsPage.jsx'))
 const AuthPage = lazy(() => import('./pages/AuthPage.jsx'))
 const PricingPage = lazy(() => import('./pages/PricingPage.jsx'))
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage.jsx'))
+const PoliciesPage = lazy(() => import('./pages/PoliciesPage.jsx'))
+const AppAdsPage = lazy(() => import('./pages/AppAdsPage.jsx'))
 
 // Preload common Google Fonts
 preloadCommonFonts()
@@ -51,6 +53,16 @@ createRoot(document.getElementById('root')).render(
               <Route path="/editor/:templateId" element={
                 <ProtectedRoute>
                   <EditorPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/policies" element={
+                <ProtectedRoute>
+                  <PoliciesPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/app-ads" element={
+                <ProtectedRoute>
+                  <AppAdsPage />
                 </ProtectedRoute>
               } />
             </Routes>

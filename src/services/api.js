@@ -61,4 +61,13 @@ export const api = {
         check: () => request('POST', '/api/exports/check'),
         track: () => request('POST', '/api/exports/track'),
     },
+
+    // ─── Documents ───────────────────────────────────
+    documents: {
+        list: () => request('GET', '/api/documents'),
+        get: (id) => request('GET', `/api/documents/${id}`),
+        create: (data) => request('POST', '/api/documents', data),
+        update: (id, data) => request('PUT', `/api/documents/${id}`, data),
+        delete: (id) => request('DELETE', `/api/documents/${id}`),
+    }
 }
