@@ -150,6 +150,158 @@ export const templates = [
     ],
   },
 
+  // ─── 10 NEW ALGORITHMIC TEMPLATES ───────────────────────────
+  // 1. Dark Theme: Dark Glow
+  {
+    id: 'mockup-dark-glow',
+    name: 'Dark Glow',
+    type: 'mockup',
+    badge: 'Pro',
+    slideCount: 1,
+    backgroundColor: '#0a0a14',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.DARK,
+    ],
+    slides: [{ title: 'Illuminate your app.', subtitle: 'Next-gen design.' }],
+  },
+  // 2. Dark Theme: Midnight Tech
+  {
+    id: 'mockup-midnight-tech',
+    name: 'Midnight Tech',
+    type: 'mockup',
+    badge: 'Hot',
+    slideCount: 1,
+    backgroundColor: '#121212',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.DARK,
+    ],
+    slides: [{ title: 'Powerful & Secure.', subtitle: 'The industry standard.' }],
+  },
+  // 3. Minimalistic: Pure White
+  {
+    id: 'mockup-pure-white',
+    name: 'Pure White',
+    type: 'mockup',
+    badge: 'New',
+    slideCount: 1,
+    backgroundColor: '#ffffff',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.MINIMAL,
+    ],
+    slides: [{ title: 'Simplicity is key.', subtitle: 'Less is more.' }],
+  },
+  // 4. Minimalistic: Soft Gray
+  {
+    id: 'mockup-soft-gray',
+    name: 'Soft Gray',
+    type: 'mockup',
+    badge: 'Free',
+    slideCount: 1,
+    backgroundColor: '#f3f4f6',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.MINIMAL,
+    ],
+    slides: [{ title: 'Elegance in gray.', subtitle: 'Clean and modern.' }],
+  },
+  // 5. Colorful: Vibrant Sunset
+  {
+    id: 'mockup-vibrant-sunset',
+    name: 'Vibrant Sunset',
+    type: 'mockup',
+    badge: 'Pro',
+    slideCount: 1,
+    backgroundColor: '#ff7e5f',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.COLORFUL,
+    ],
+    slides: [{ title: 'Stand out daily.', subtitle: 'Vibrant and alive.' }],
+  },
+  // 6. Colorful: Ocean Breeze
+  {
+    id: 'mockup-ocean-breeze',
+    name: 'Ocean Breeze',
+    type: 'mockup',
+    badge: 'Hot',
+    slideCount: 1,
+    backgroundColor: '#00c6ff',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.COLORFUL,
+    ],
+    slides: [{ title: 'Cool and refreshing.', subtitle: 'Ride the wave.' }],
+  },
+  // 7. 3D Device: Dynamic Tilt
+  {
+    id: 'mockup-dynamic-tilt',
+    name: 'Dynamic Tilt',
+    type: 'mockup',
+    badge: 'Pro',
+    slideCount: 1,
+    backgroundColor: '#2b2b2b',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.THREE_D,
+    ],
+    slides: [{ title: 'Feel the depth.', subtitle: 'Incredible 3D realism.' }],
+  },
+  // 8. 3D Device: Float Perspective
+  {
+    id: 'mockup-float-perspective',
+    name: 'Float Perspective',
+    type: 'mockup',
+    badge: 'New',
+    slideCount: 1,
+    backgroundColor: '#1e3a8a',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.THREE_D,
+    ],
+    slides: [{ title: 'Above the clouds.', subtitle: 'Stunning floating angles.' }],
+  },
+  // 9. Illustration: Geometric Pop
+  {
+    id: 'mockup-geometric-pop',
+    name: 'Geometric Pop',
+    type: 'mockup',
+    badge: 'Trending',
+    slideCount: 1,
+    backgroundColor: '#fef3c7',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.ILLUSTRATIONS,
+    ],
+    slides: [{ title: 'Playful designs.', subtitle: 'Geometry meets art.' }],
+  },
+  // 10. Illustration: Abstract Waves
+  {
+    id: 'mockup-abstract-waves',
+    name: 'Abstract Waves',
+    type: 'mockup',
+    badge: 'Pro',
+    slideCount: 1,
+    backgroundColor: '#e0e7ff',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.ILLUSTRATIONS,
+    ],
+    slides: [{ title: 'Smooth sailing.', subtitle: 'Abstract and beautiful.' }],
+  },
+
   // ─── SCREENSHOT TEMPLATES (quality, with unique layouts) ──────
   {
     id: 'social-neon', name: 'Social Neon', type: 'screenshot', badge: 'Pro', slideCount: 5, backgroundColor: '#0a0a0a',

@@ -332,6 +332,167 @@ export function buildMockupShopFilmstrip(t) {
   ]
 }
 
+// ─── 10 NEW ALGORITHMIC TEMPLATES ───────────────────────────
+
+// 1. DARK GLOW
+export function buildMockupDarkGlow(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#0a0a14',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'dg-glow', type: 'blob', x: -100, y: -200, width: 800, height: 800, style: { color: '#8B5CF6', opacity: 0.2, borderRadius: '400px' } },
+        { id: 'dg-title', type: 'text', x: 200, y: 300, width: 600, height: 120, content: 'Illuminate\nyour app.', style: { fontSize: 82, fontWeight: '800', color: '#FFFFFF', align: 'left', lineHeight: 90 } },
+        { id: 'dg-sub', type: 'text', x: 200, y: 520, width: 500, height: 60, content: 'Next-gen design starts here.', style: { fontSize: 24, fontWeight: '400', color: '#94A3B8', align: 'left' } },
+        { id: 'dg-device', type: 'device', x: 850, y: 150, width: 320, height: 660, style: { rotation: -12 } }
+      ]
+    })
+  ]
+}
+
+// 2. MIDNIGHT TECH
+export function buildMockupMidnightTech(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#121212',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'mt-title', type: 'text', x: 200, y: 300, width: 600, height: 120, content: 'Powerful & Secure.', style: { fontSize: 82, fontWeight: '800', color: '#FFFFFF', align: 'left', lineHeight: 90 } },
+        { id: 'mt-sub', type: 'text', x: 200, y: 520, width: 500, height: 60, content: 'Built for scale and performance.', style: { fontSize: 24, fontWeight: '400', color: '#94A3B8', align: 'left' } },
+        { id: 'mt-device1', type: 'device', x: 800, y: 150, width: 280, height: 580, style: { rotation: 5 }, screenType: 'music' },
+        { id: 'mt-device2', type: 'device', x: 1050, y: 200, width: 280, height: 580, style: { rotation: -5 }, screenType: 'music' }
+      ]
+    })
+  ]
+}
+
+// 3. PURE WHITE
+export function buildMockupPureWhite(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#ffffff',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'pw-title', type: 'text', x: 420, y: 150, width: 600, height: 100, content: 'Simplicity is key.', style: { fontSize: 56, fontWeight: '800', color: '#111827', align: 'center' } },
+        { id: 'pw-sub', type: 'text', x: 420, y: 260, width: 600, height: 60, content: 'Less is more.', style: { fontSize: 28, fontWeight: '400', color: '#6B7280', align: 'center' } },
+        { id: 'pw-device', type: 'device', x: 520, y: 400, width: 400, height: 820, style: { rotation: 0 } }
+      ]
+    })
+  ]
+}
+
+// 4. SOFT GRAY
+export function buildMockupSoftGray(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#f3f4f6',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'sg-blob', type: 'blob', x: -50, y: 500, width: 600, height: 600, style: { color: '#e5e7eb', opacity: 1, borderRadius: '40px' } },
+        { id: 'sg-title', type: 'text', x: 200, y: 350, width: 600, height: 120, content: 'Elegance in gray.', style: { fontSize: 72, fontWeight: '800', color: '#111827', align: 'left', lineHeight: 85 } },
+        { id: 'sg-sub', type: 'text', x: 200, y: 560, width: 500, height: 60, content: 'Clean and modern aesthetics.', style: { fontSize: 24, fontWeight: '400', color: '#6B7280', align: 'left' } },
+        { id: 'sg-device', type: 'device', x: 900, y: 120, width: 340, height: 700, style: { rotation: -3 } }
+      ]
+    })
+  ]
+}
+
+// 5. VIBRANT SUNSET
+export function buildMockupVibrantSunset(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#ff7e5f',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'vs2-bg1', type: 'blob', x: -200, y: -200, width: 1200, height: 1200, style: { color: '#feb47b', opacity: 0.8 } },
+        { id: 'vs2-title', type: 'text', x: 200, y: 320, width: 600, height: 180, content: 'Stand out daily.', style: { fontSize: 88, fontWeight: '900', color: '#FFFFFF', align: 'left', lineHeight: 95 } },
+        { id: 'vs2-sub', type: 'text', x: 200, y: 560, width: 500, height: 60, content: 'Vibrant and fully alive.', style: { fontSize: 32, fontWeight: '700', color: '#FFFFFF', align: 'left' } },
+        { id: 'vs2-device', type: 'device', x: 800, y: 100, width: 380, height: 780, style: { rotation: 0 } }
+      ]
+    })
+  ]
+}
+
+// 6. OCEAN BREEZE
+export function buildMockupOceanBreeze(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#00c6ff',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'ob-bg', type: 'blob', x: 600, y: 0, width: 1000, height: 1000, style: { color: '#0072ff', opacity: 0.6 } },
+        { id: 'ob-badge', type: 'badge', x: 200, y: 220, width: 150, height: 40, content: 'SUMMER VIBRES', style: { bgColor: '#FFFFFF', color: '#0072ff', fontSize: 13, fontWeight: '800', borderRadius: 20, px: 20, py: 8 } },
+        { id: 'ob-title', type: 'text', x: 200, y: 340, width: 600, height: 180, content: 'Cool and\nrefreshing.', style: { fontSize: 88, fontWeight: '900', color: '#FFFFFF', align: 'left', lineHeight: 95 } },
+        { id: 'ob-device', type: 'device', x: 850, y: 120, width: 340, height: 700, style: { rotation: 10 } }
+      ]
+    })
+  ]
+}
+
+// 7. DYNAMIC TILT
+export function buildMockupDynamicTilt(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#2b2b2b',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'dt-title', type: 'text', x: 150, y: 150, width: 800, height: 100, content: 'Feel the depth.', style: { fontSize: 72, fontWeight: '900', color: '#FFFFFF', align: 'left' } },
+        { id: 'dt-device1', type: 'device', x: 150, y: 350, width: 280, height: 580, style: { rotation: -15 }, screenType: 'music' },
+        { id: 'dt-device2', type: 'device', x: 550, y: 200, width: 320, height: 660, style: { rotation: 0 }, screenType: 'music' },
+        { id: 'dt-device3', type: 'device', x: 1000, y: 400, width: 280, height: 580, style: { rotation: 15 }, screenType: 'music' }
+      ]
+    })
+  ]
+}
+
+// 8. FLOAT PERSPECTIVE
+export function buildMockupFloatPerspective(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#1e3a8a',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'fp-globe', type: 'badge', x: 1100, y: -200, width: 600, height: 600, content: '', style: { bgColor: 'rgba(255,255,255,0.05)', borderRadius: 999 } },
+        { id: 'fp-title', type: 'text', x: 200, y: 300, width: 600, height: 120, content: 'Above the clouds.', style: { fontSize: 80, fontWeight: '800', color: '#FFFFFF', align: 'left', lineHeight: 90 } },
+        { id: 'fp-sub', type: 'text', x: 200, y: 500, width: 500, height: 60, content: 'Stunning floating angles.', style: { fontSize: 28, fontWeight: '400', color: '#bfdbfe', align: 'left' } },
+        { id: 'fp-device', type: 'device', x: 800, y: 80, width: 400, height: 820, style: { rotation: -8 } }
+      ]
+    })
+  ]
+}
+
+// 9. GEOMETRIC POP
+export function buildMockupGeometricPop(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#fef3c7',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'gp-circle', type: 'badge', x: 800, y: 200, width: 400, height: 400, content: '', style: { bgColor: '#fcd34d', borderRadius: 999 } },
+        { id: 'gp-rect', type: 'blob', x: -100, y: -100, width: 500, height: 500, style: { color: '#fbbf24', opacity: 1, borderRadius: '20px' } },
+        { id: 'gp-title', type: 'text', x: 150, y: 450, width: 600, height: 120, content: 'Playful designs.', style: { fontSize: 80, fontWeight: '900', color: '#111827', align: 'left' } },
+        { id: 'gp-device', type: 'device', x: 700, y: 150, width: 340, height: 700, style: { rotation: 5 } }
+      ]
+    })
+  ]
+}
+
+// 10. ABSTRACT WAVES
+export function buildMockupAbstractWaves(t) {
+  return [
+    bs(1, {
+      backgroundColor: '#e0e7ff',
+      width: 1440, height: 900,
+      elements: [
+        { id: 'aw-wave1', type: 'blob', x: -200, y: 600, width: 1800, height: 400, style: { color: '#c7d2fe', opacity: 1, borderRadius: '100% 100% 0 0' } },
+        { id: 'aw-title', type: 'text', x: 300, y: 200, width: 840, height: 100, content: 'Smooth sailing.', style: { fontSize: 80, fontWeight: '900', color: '#312e81', align: 'center' } },
+        { id: 'aw-sub', type: 'text', x: 300, y: 350, width: 840, height: 60, content: 'Abstract and beautiful simplicity.', style: { fontSize: 28, fontWeight: '400', color: '#4f46e5', align: 'center' } },
+        { id: 'aw-device', type: 'device', x: 520, y: 450, width: 400, height: 820, style: { rotation: 0 } }
+      ]
+    })
+  ]
+}
+
 export const MOCKUP_BUILDERS = {
   'mockup-clean-cover': buildMockupCleanCover,
   'mockup-iphone14-pro': buildMockupIphone14Pro,
@@ -341,4 +502,14 @@ export const MOCKUP_BUILDERS = {
   'mockup-dating-app': buildMockupDatingApp,
   'mockup-ecommerce-app': buildMockupEcommerceApp,
   'mockup-shop-filmstrip': buildMockupShopFilmstrip,
+  'mockup-dark-glow': buildMockupDarkGlow,
+  'mockup-midnight-tech': buildMockupMidnightTech,
+  'mockup-pure-white': buildMockupPureWhite,
+  'mockup-soft-gray': buildMockupSoftGray,
+  'mockup-vibrant-sunset': buildMockupVibrantSunset,
+  'mockup-ocean-breeze': buildMockupOceanBreeze,
+  'mockup-dynamic-tilt': buildMockupDynamicTilt,
+  'mockup-float-perspective': buildMockupFloatPerspective,
+  'mockup-geometric-pop': buildMockupGeometricPop,
+  'mockup-abstract-waves': buildMockupAbstractWaves,
 }
