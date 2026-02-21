@@ -215,6 +215,9 @@ const BADGE_STYLES = {
   Popular: 'bg-blue-50 text-blue-600',
   New: 'bg-green-50 text-green-600',
   Free: 'bg-gray-100 text-gray-600',
+  Figma: 'bg-purple-100 text-purple-700',
+  Pro: 'bg-amber-100 text-amber-700',
+  Hot: 'bg-red-100 text-red-600',
 }
 
 function BadgePill({ label }) {

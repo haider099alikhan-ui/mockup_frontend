@@ -4,10 +4,11 @@ import TextElement from './elements/TextElement'
 import BlobElement from './elements/BlobElement'
 import BrandingElement from './elements/BrandingElement'
 import BadgeElement from './elements/BadgeElement'
+import ImageElement from './elements/ImageElement'
 import { computeSnapGuides, SnapGuideLines } from '../../utils/snapGuides.jsx'
 
-const DISPLAY_WIDTH = 280
-const DISPLAY_HEIGHT = 480
+const DEFAULT_DISPLAY_WIDTH = 280
+const DEFAULT_DISPLAY_HEIGHT = 480
 
 function CanvasSlide({
   slide,
@@ -23,7 +24,23 @@ function CanvasSlide({
   gridSize,
   snapValue,
 }) {
-  const scale = useMemo(() => zoom / 100, [zoom])
+  const displayWidth = slide.width || DEFAULT_DISPLAY_WIDTH
+  const displayHeight = slide.height || DEFAULT_DISPLAY_HEIGHT
+
+  // Calculate effective scale based on whether this is a legacy standard sizing
+  // vs a high-res custom sizing. Constrain maximum preview size to ~480px.
+  const baseScale = useMemo(() => {
+    if (slide.width && slide.height) {
+      const maxDim = Math.max(slide.width, slide.height)
+      if (maxDim > DEFAULT_DISPLAY_HEIGHT) {
+        return DEFAULT_DISPLAY_HEIGHT / maxDim
+      }
+    }
+    return 1
+  }, [slide.width, slide.height])
+
+  const scale = useMemo(() => (zoom / 100) * baseScale, [zoom, baseScale])
+
   const innerRef = useRef(null)
   const [activeGuides, setActiveGuides] = useState([])
   const [selectionBox, setSelectionBox] = useState(null)
@@ -45,13 +62,13 @@ function CanvasSlide({
       const result = computeSnapGuides(
         movingElement,
         otherElements,
-        DISPLAY_WIDTH,
-        DISPLAY_HEIGHT,
+        displayWidth,
+        displayHeight,
       )
       setActiveGuides(result.guides)
       return result
     },
-    [slide.elements],
+    [slide.elements, displayWidth, displayHeight],
   )
 
   const handleDragEnd = useCallback(() => {
@@ -81,26 +98,26 @@ function CanvasSlide({
     (e) => {
       // Don't interfere with scroll container wheel events
       if (e.type === 'wheel') return
-      
+
       // Check if we're clicking on an element
       const clickedElement = e.target.closest('[data-element-id]')
       if (clickedElement) return // Let element handle its own click
-      
+
       // Only start selection if clicking on canvas background
-      const isCanvasClick = e.target === innerRef.current || 
-                           e.target === innerRef.current?.parentElement ||
-                           (innerRef.current && innerRef.current.contains(e.target))
-      
+      const isCanvasClick = e.target === innerRef.current ||
+        e.target === innerRef.current?.parentElement ||
+        (innerRef.current && innerRef.current.contains(e.target))
+
       if (!isCanvasClick) return
-      
+
       onClick()
-      
+
       // Start selection box
       const isShiftKey = e.shiftKey
       const pos = toCanvasCoords(e.clientX, e.clientY)
       selectionStartRef.current = { ...pos, shiftKey: isShiftKey }
       setSelectionBox({ x: pos.x, y: pos.y, width: 0, height: 0 })
-      
+
       const onMove = (moveEvent) => {
         const currentPos = toCanvasCoords(moveEvent.clientX, moveEvent.clientY)
         const start = selectionStartRef.current
@@ -114,11 +131,11 @@ function CanvasSlide({
           setSelectionBox(box)
         }
       }
-      
+
       const onUp = (upEvent) => {
         const start = selectionStartRef.current
         const currentBox = selectionBoxRef.current || { x: 0, y: 0, width: 0, height: 0 }
-        
+
         if (start && (currentBox.width > 5 || currentBox.height > 5)) {
           // Find elements that intersect with selection box
           const box = {
@@ -127,7 +144,7 @@ function CanvasSlide({
             width: currentBox.width,
             height: currentBox.height,
           }
-          
+
           const selectedIds = slide.elements
             .filter((el) => {
               if (el.isHidden) return false
@@ -136,7 +153,7 @@ function CanvasSlide({
               const elBottom = el.y + el.height
               const boxRight = box.x + box.width
               const boxBottom = box.y + box.height
-              
+
               return !(
                 elRight < box.x ||
                 el.x > boxRight ||
@@ -145,7 +162,7 @@ function CanvasSlide({
               )
             })
             .map((el) => el.id)
-          
+
           if (selectedIds.length > 0) {
             // Add to selection (or replace if not holding Shift)
             if (start.shiftKey) {
@@ -170,14 +187,14 @@ function CanvasSlide({
           // Small click without drag - clear selection
           onSelectElement?.(null)
         }
-        
+
         setSelectionBox(null)
         selectionBoxRef.current = null
         selectionStartRef.current = null
         window.removeEventListener('mousemove', onMove)
         window.removeEventListener('mouseup', onUp)
       }
-      
+
       window.addEventListener('mousemove', onMove)
       window.addEventListener('mouseup', onUp)
     },
@@ -217,31 +234,30 @@ function CanvasSlide({
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') handleCanvasClick()
         }}
-        className={`relative overflow-hidden rounded-xl border transition-all duration-200 ease-out will-change-transform ${
-          isActive
-            ? 'border-blue-500 shadow-[0_0_0_1px_rgba(59,130,246,0.7)]'
-            : 'border-gray-800'
-        } hover:scale-[1.02]`}
+        className={`relative overflow-hidden rounded-xl border transition-all duration-200 ease-out will-change-transform ${isActive
+          ? 'border-blue-500 shadow-[0_0_0_1px_rgba(59,130,246,0.7)]'
+          : 'border-gray-800'
+          } hover:scale-[1.02]`}
         style={{
-          width: DISPLAY_WIDTH * scale,
-          height: DISPLAY_HEIGHT * scale,
+          width: displayWidth * scale,
+          height: displayHeight * scale,
           backgroundColor: slide.backgroundColor?.startsWith('linear-gradient')
             ? undefined
             : slide.backgroundColor,
           background: slide.backgroundColor?.startsWith('linear-gradient')
             ? slide.backgroundColor
             : undefined,
-          transformOrigin: 'top left',
           position: 'relative',
         }}
         data-slide-export
+        {...(isActive ? { id: 'active-slide-preview' } : {})}
       >
         <div
           ref={innerRef}
           className="relative"
           style={{
-            width: DISPLAY_WIDTH,
-            height: DISPLAY_HEIGHT,
+            width: displayWidth,
+            height: displayHeight,
             transform: `scale(${scale})`,
             transformOrigin: 'top left',
           }}
@@ -257,6 +273,23 @@ function CanvasSlide({
             }
             if (element.type === 'badge') {
               return <BadgeElement key={element.id} element={element} />
+            }
+            if (element.type === 'image') {
+              return (
+                <ImageElement
+                  key={element.id}
+                  element={element}
+                  onChange={handleElementChange}
+                  isSelected={selectedElementIds.includes(element.id)}
+                  onSelect={handleSelect}
+                  containerRef={innerRef}
+                  canvasScale={scale}
+                  onContextMenu={handleElementContextMenu}
+                  onSnapCompute={handleSnapCompute}
+                  onDragEnd={handleDragEnd}
+                  snapValue={snapValue}
+                />
+              )
             }
             if (element.type === 'device') {
               return (
@@ -298,8 +331,8 @@ function CanvasSlide({
           {activeGuides.length > 0 && (
             <SnapGuideLines
               guides={activeGuides}
-              canvasWidth={DISPLAY_WIDTH}
-              canvasHeight={DISPLAY_HEIGHT}
+              canvasWidth={displayWidth}
+              canvasHeight={displayHeight}
             />
           )}
 

@@ -11,7 +11,7 @@ function UploadsTab({ slides, activeSlide, selectedElementId, onUpdateElement })
   const selectedDevice = (() => {
     if (!selectedElementId || !slides?.[activeSlide]) return null
     const el = slides[activeSlide].elements.find((e) => e.id === selectedElementId)
-    return el?.type === 'device' ? el : null
+    return ['device', 'image'].includes(el?.type) ? el : null
   })()
 
   const handleFiles = useCallback((fileList) => {
@@ -41,7 +41,10 @@ function UploadsTab({ slides, activeSlide, selectedElementId, onUpdateElement })
 
   const handleInsertIntoDevice = useCallback((fileUrl) => {
     if (!selectedDevice || !onUpdateElement) return
-    onUpdateElement(selectedDevice.id, { screenshot: fileUrl })
+    const updatePayload = selectedDevice.type === 'image'
+      ? { src: fileUrl }
+      : { screenshot: fileUrl }
+    onUpdateElement(selectedDevice.id, updatePayload)
     setLastInserted(fileUrl)
     setTimeout(() => setLastInserted(null), 1500)
   }, [selectedDevice, onUpdateElement])
@@ -57,11 +60,10 @@ function UploadsTab({ slides, activeSlide, selectedElementId, onUpdateElement })
             key={id}
             type="button"
             onClick={() => setActiveSubTab(id)}
-            className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[10px] font-medium transition-all duration-150 ${
-              activeSubTab === id
-                ? 'bg-[#333] text-white shadow-sm'
-                : 'text-gray-400 hover:text-gray-200'
-            }`}
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[10px] font-medium transition-all duration-150 ${activeSubTab === id
+              ? 'bg-[#333] text-white shadow-sm'
+              : 'text-gray-400 hover:text-gray-200'
+              }`}
           >
             <Icon className="h-3 w-3" />
             {label}
@@ -78,11 +80,10 @@ function UploadsTab({ slides, activeSlide, selectedElementId, onUpdateElement })
               setIsDragOver(true)
             }}
             onDragLeave={() => setIsDragOver(false)}
-            className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed px-3 py-8 text-center transition-all duration-200 ${
-              isDragOver
-                ? 'border-blue-500 bg-blue-500/10'
-                : 'border-gray-600 bg-[#232323] hover:border-gray-500'
-            }`}
+            className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed px-3 py-8 text-center transition-all duration-200 ${isDragOver
+              ? 'border-blue-500 bg-blue-500/10'
+              : 'border-gray-600 bg-[#232323] hover:border-gray-500'
+              }`}
             onClick={() => fileInputRef.current?.click()}
             role="button"
             tabIndex={0}
@@ -132,11 +133,10 @@ function UploadsTab({ slides, activeSlide, selectedElementId, onUpdateElement })
                     <img
                       src={file.url}
                       alt={file.name}
-                      className={`h-16 w-full rounded-md border object-cover transition-all duration-200 ${
-                        selectedDevice
-                          ? 'cursor-pointer border-gray-700 hover:border-blue-500 hover:shadow-lg'
-                          : 'cursor-not-allowed border-gray-700 opacity-60'
-                      } ${lastInserted === file.url ? 'ring-2 ring-emerald-500' : ''}`}
+                      className={`h-16 w-full rounded-md border object-cover transition-all duration-200 ${selectedDevice
+                        ? 'cursor-pointer border-gray-700 hover:border-blue-500 hover:shadow-lg'
+                        : 'cursor-not-allowed border-gray-700 opacity-60'
+                        } ${lastInserted === file.url ? 'ring-2 ring-emerald-500' : ''}`}
                     />
                   </button>
                   {lastInserted === file.url && (

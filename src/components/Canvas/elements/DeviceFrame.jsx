@@ -76,13 +76,13 @@ function DeviceFrame({ element, onChange, isSelected, onSelect, containerRef, ca
         const dy = cur.y - dragStart.current.y
         let newX = dragStart.current.elX + dx
         let newY = dragStart.current.elY + dy
-        
+
         // Apply snap-to-grid if enabled
         if (snapValue) {
           newX = snapValue(newX)
           newY = snapValue(newY)
         }
-        
+
         if (onSnapCompute) {
           const snap = onSnapCompute({ ...element, x: newX, y: newY })
           if (snap.snappedX !== null) newX = snap.snappedX
@@ -160,7 +160,7 @@ function DeviceFrame({ element, onChange, isSelected, onSelect, containerRef, ca
         e.stopPropagation()
         onContextMenu?.(e, element.id, 'device')
       }}
-      onKeyDown={() => {}}
+      onKeyDown={() => { }}
       style={{
         position: 'absolute',
         left: element.x,
@@ -188,8 +188,13 @@ function DeviceFrame({ element, onChange, isSelected, onSelect, containerRef, ca
         </>
       )}
       <div
-        className="relative flex h-full w-full items-center justify-center bg-black shadow-2xl will-change-transform"
-        style={{ borderRadius, border: '2px solid #333' }}
+        className="relative flex h-full w-full items-center justify-center shadow-2xl will-change-transform"
+        style={{
+          borderRadius,
+          border: '2px solid #333',
+          background: 'linear-gradient(145deg, #1a1a1a 0%, #000000 100%)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
+        }}
       >
         {/* Dynamic Island */}
         <div
@@ -291,9 +296,60 @@ function DeviceFrame({ element, onChange, isSelected, onSelect, containerRef, ca
               }
               return screens[element.screenType] || <WireframeScreen />
             })()
+          ) : element.style?.screenGradient ? (
+            // Show the template's screen gradient with a polished UI overlay
+            <div className="h-full w-full" style={{ background: element.style.screenGradient }}>
+              <div className="flex h-full w-full flex-col px-[8%] pb-[4%] pt-[10%]">
+                {/* Status bar */}
+                <div className="mb-[6%] flex items-center justify-between">
+                  <div className="h-[3px] w-[20%] rounded-full bg-white/30" />
+                  <div className="flex gap-[4%]">
+                    <div className="h-[5px] w-[5px] rounded-full bg-white/30" />
+                    <div className="h-[5px] w-[5px] rounded-full bg-white/30" />
+                  </div>
+                </div>
+                {/* Hero card */}
+                <div className="mb-[5%] h-[22%] w-full rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)', border: '1px solid rgba(255,255,255,0.1)' }} />
+                {/* Tab bar */}
+                <div className="mb-[4%] flex gap-[4%]">
+                  <div className="h-[12px] flex-1 rounded-md bg-white/20" />
+                  <div className="h-[12px] flex-1 rounded-md bg-white/10" />
+                  <div className="h-[12px] flex-1 rounded-md bg-white/10" />
+                </div>
+                {/* Content rows */}
+                <div className="space-y-[8%]">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="flex items-center gap-[5%]">
+                      <div className="h-[14px] w-[14px] shrink-0 rounded-md bg-white/15" />
+                      <div className="flex-1 space-y-[4px]">
+                        <div className="h-[3px] rounded-full bg-white/25" style={{ width: `${75 - i * 8}%` }} />
+                        <div className="h-[2px] rounded-full bg-white/12" style={{ width: `${55 - i * 5}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Bottom nav */}
+                <div className="mt-auto flex justify-around border-t border-white/10 pt-[5%]">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="flex flex-col items-center gap-[2px]">
+                      <div className={`h-[5px] w-[5px] rounded ${i === 1 ? 'bg-white/50' : 'bg-white/15'}`} />
+                      <div className="h-[2px] w-[10px] rounded-full bg-white/10" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           ) : (
             <WireframeScreen />
           )}
+          {/* Glass reflection overlay */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: 'linear-gradient(165deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 25%, transparent 50%)',
+              borderRadius: screenRadius,
+            }}
+          />
         </button>
       </div>
     </div>

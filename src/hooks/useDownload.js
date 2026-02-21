@@ -1,15 +1,56 @@
 import { useState, useCallback } from 'react'
+import { api } from '../services/api'
+import { supabase } from '../lib/supabaseClient'
 
 function useDownload() {
   const [isDownloading, setIsDownloading] = useState(false)
   const [downloadProgress, setDownloadProgress] = useState(0)
+  const [exportLimitReached, setExportLimitReached] = useState(false)
+  const [exportInfo, setExportInfo] = useState(null)
+
+  // Check export limits before downloading
+  const checkExportLimit = async () => {
+    if (!supabase) return { canExport: true } // No auth = no limits
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return { canExport: true } // Not logged in = localStorage mode
+      const result = await api.exports.check()
+      return result
+    } catch {
+      return { canExport: true } // On error, allow export
+    }
+  }
+
+  // Track export usage after successful download
+  const trackExport = async () => {
+    if (!supabase) return
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return
+      const result = await api.exports.track()
+      setExportInfo(result)
+    } catch {
+      // Silent fail — don't block the user
+    }
+  }
 
   const downloadCurrentSlide = useCallback(async (projectName = 'design', slideIndex = 0, options = {}) => {
+    // Check export limits
+    const limitCheck = await checkExportLimit()
+    if (!limitCheck.canExport) {
+      setExportLimitReached(true)
+      setExportInfo(limitCheck)
+      return { success: false, error: 'Export limit reached', limitReached: true }
+    }
+
     setIsDownloading(true)
     setDownloadProgress(0)
     try {
       const html2canvas = (await import('html2canvas')).default
-      const el = document.getElementById('active-slide-preview')
+      let el = document.getElementById('active-slide-preview')
+      if (!el) {
+        el = document.querySelector('[data-slide-export]')
+      }
       if (!el) throw new Error('No slide element found to export')
 
       const format = options.format || 'png'
@@ -23,6 +64,8 @@ function useDownload() {
         backgroundColor: null,
         useCORS: true,
         logging: false,
+        allowTaint: true,
+        removeContainer: true,
       })
 
       const link = document.createElement('a')
@@ -30,6 +73,10 @@ function useDownload() {
       link.href = canvas.toDataURL(mimeType, quality)
       link.click()
       setDownloadProgress(100)
+
+      // Track the export
+      await trackExport()
+
       return { success: true }
     } catch (err) {
       return { success: false, error: err.message || 'Failed to export slide' }
@@ -39,7 +86,40 @@ function useDownload() {
     }
   }, [])
 
+  const renderSlideToCanvas = (html2canvas, el, scale) => {
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Render timed out'))
+      }, 15000)
+
+      html2canvas(el, {
+        scale,
+        backgroundColor: null,
+        useCORS: true,
+        logging: false,
+        allowTaint: true,
+        removeContainer: true,
+      })
+        .then((canvas) => {
+          clearTimeout(timeout)
+          resolve(canvas)
+        })
+        .catch((err) => {
+          clearTimeout(timeout)
+          reject(err)
+        })
+    })
+  }
+
   const downloadAllSlides = useCallback(async (slides, projectName = 'design', options = {}) => {
+    // Check export limits
+    const limitCheck = await checkExportLimit()
+    if (!limitCheck.canExport) {
+      setExportLimitReached(true)
+      setExportInfo(limitCheck)
+      return { success: false, error: 'Export limit reached', limitReached: true }
+    }
+
     setIsDownloading(true)
     setDownloadProgress(0)
     try {
@@ -57,24 +137,33 @@ function useDownload() {
         throw new Error('No slides found to export. Make sure slides are visible on the canvas.')
       }
 
-      for (let i = 0; i < slideElements.length; i++) {
-        setDownloadProgress(Math.round(((i + 0.5) / slideElements.length) * 90))
+      let successCount = 0
+      const totalSlides = slideElements.length
+
+      for (let i = 0; i < totalSlides; i++) {
+        setDownloadProgress(Math.round(((i + 0.5) / totalSlides) * 90))
         const scale = options.scale || 3
-        const canvas = await html2canvas(slideElements[i], {
-          scale,
-          backgroundColor: null,
-          useCORS: true,
-          logging: false,
-        })
-        const blob = await new Promise((resolve, reject) => {
-          canvas.toBlob(
-            (b) => (b ? resolve(b) : reject(new Error(`Failed to render slide ${i + 1}`))),
-            mimeType,
-            quality,
-          )
-        })
-        zip.file(`${projectName}-slide-${i + 1}.${ext}`, blob)
-        setDownloadProgress(Math.round(((i + 1) / slideElements.length) * 90))
+
+        try {
+          const canvas = await renderSlideToCanvas(html2canvas, slideElements[i], scale)
+          const blob = await new Promise((resolve, reject) => {
+            canvas.toBlob(
+              (b) => (b ? resolve(b) : reject(new Error(`Failed to render slide ${i + 1}`))),
+              mimeType,
+              quality,
+            )
+          })
+          zip.file(`${projectName}-slide-${i + 1}.${ext}`, blob)
+          successCount++
+        } catch (slideErr) {
+          console.warn(`Slide ${i + 1} export failed, skipping:`, slideErr.message)
+        }
+
+        setDownloadProgress(Math.round(((i + 1) / totalSlides) * 90))
+      }
+
+      if (successCount === 0) {
+        throw new Error('All slides failed to export')
       }
 
       setDownloadProgress(95)
@@ -85,8 +174,13 @@ function useDownload() {
       link.click()
       URL.revokeObjectURL(link.href)
       setDownloadProgress(100)
-      return { success: true, count: slideElements.length }
+
+      // Track the export
+      await trackExport()
+
+      return { success: true, count: successCount }
     } catch (err) {
+      console.error('Export failed:', err)
       return { success: false, error: err.message || 'Export failed' }
     } finally {
       setIsDownloading(false)
@@ -94,7 +188,20 @@ function useDownload() {
     }
   }, [])
 
-  return { isDownloading, downloadProgress, downloadCurrentSlide, downloadAllSlides }
+  const dismissExportLimit = useCallback(() => {
+    setExportLimitReached(false)
+    setExportInfo(null)
+  }, [])
+
+  return {
+    isDownloading,
+    downloadProgress,
+    downloadCurrentSlide,
+    downloadAllSlides,
+    exportLimitReached,
+    exportInfo,
+    dismissExportLimit,
+  }
 }
 
 export default useDownload

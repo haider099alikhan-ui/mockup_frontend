@@ -36,13 +36,13 @@ function TextElement({ element, onChange, isSelected, onSelect, containerRef, ca
         const dy = cur.y - dragStart.current.y
         let newX = dragStart.current.elX + dx
         let newY = dragStart.current.elY + dy
-        
+
         // Apply snap-to-grid if enabled
         if (snapValue) {
           newX = snapValue(newX)
           newY = snapValue(newY)
         }
-        
+
         if (onSnapCompute) {
           const snap = onSnapCompute({ ...element, x: newX, y: newY })
           if (snap.snappedX !== null) newX = snap.snappedX
@@ -158,7 +158,7 @@ function TextElement({ element, onChange, isSelected, onSelect, containerRef, ca
             fontWeight: style.fontWeight || '600',
             textAlign: style.align || 'left',
             color: style.color || '#ffffff',
-            lineHeight: style.lineHeight ? style.lineHeight / 100 : 1.1,
+            lineHeight: style.lineHeight ? (style.lineHeight > 3 ? `${style.lineHeight}px` : style.lineHeight) : 1.1,
             fontFamily: style.fontFamily || 'inherit',
             fontStyle: style.fontStyle || 'normal',
             textDecoration: style.textDecoration || 'none',
@@ -172,7 +172,7 @@ function TextElement({ element, onChange, isSelected, onSelect, containerRef, ca
             fontWeight: style.fontWeight || '600',
             textAlign: style.align || 'left',
             color: style.color || '#ffffff',
-            lineHeight: style.lineHeight ? style.lineHeight / 100 : 1.1,
+            lineHeight: style.lineHeight ? (style.lineHeight > 3 ? `${style.lineHeight}px` : style.lineHeight) : 1.1,
             fontFamily: style.fontFamily || 'inherit',
             fontStyle: style.fontStyle || 'normal',
             textDecoration: style.textDecoration || 'none',

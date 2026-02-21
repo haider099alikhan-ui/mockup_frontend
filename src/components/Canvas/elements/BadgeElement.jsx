@@ -36,6 +36,9 @@ function BadgeElement({ element }) {
           color: s.color || '#ffffff',
           letterSpacing: s.letterSpacing || '0.02em',
           textTransform: s.textTransform || 'uppercase',
+          whiteSpace: 'pre-line',
+          textAlign: 'center',
+          lineHeight: 1.3,
         }}
       >
         {element.content}

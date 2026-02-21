@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Check, ChevronDown, Cloud, Crown, Download, Loader2, Redo2, Undo2, User, Bookmark, Plus, Trash2, Save } from 'lucide-react'
 import { getExportPresets, saveExportPreset, deleteExportPreset, DEFAULT_PRESETS } from '../utils/exportPresets'
+import { useAuth } from '../contexts/AuthContext'
 
 function ExportDropdown({ onExport, isDownloading }) {
   const [open, setOpen] = useState(false)
@@ -109,11 +110,10 @@ function ExportDropdown({ onExport, isDownloading }) {
                     key={preset.id}
                     type="button"
                     onClick={() => handlePresetSelect(preset)}
-                    className={`group relative flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left text-[10px] transition-all ${
-                      isSelected
+                    className={`group relative flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left text-[10px] transition-all ${isSelected
                         ? 'bg-blue-500/20 text-blue-400 ring-1 ring-blue-500'
                         : 'bg-[#252525] text-gray-400 hover:bg-[#333] hover:text-gray-200'
-                    }`}
+                      }`}
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-1.5">
@@ -186,11 +186,10 @@ function ExportDropdown({ onExport, isDownloading }) {
                   key={f}
                   type="button"
                   onClick={() => setFormat(f)}
-                  className={`flex-1 rounded-md px-2 py-1.5 text-[11px] font-medium uppercase transition-all ${
-                    format === f
+                  className={`flex-1 rounded-md px-2 py-1.5 text-[11px] font-medium uppercase transition-all ${format === f
                       ? 'bg-blue-500/20 text-blue-400 ring-1 ring-blue-500'
                       : 'bg-[#252525] text-gray-400 hover:bg-[#333]'
-                  }`}
+                    }`}
                 >
                   {f}
                 </button>
@@ -231,6 +230,7 @@ function ExportDropdown({ onExport, isDownloading }) {
 
 function Navbar({ projectName, setProjectName, onUndo, onRedo, canUndo, canRedo, onDownload, isDownloading, onSave, lastSaveTime }) {
   const navigate = useNavigate()
+  const { user, profile, isPro, isAuthenticated } = useAuth()
   const [localName, setLocalName] = useState(projectName)
   const [saveStatus, setSaveStatus] = useState('idle')
   const isFirstRender = useRef(true)
@@ -297,11 +297,10 @@ function Navbar({ projectName, setProjectName, onUndo, onRedo, canUndo, canRedo,
         />
         {saveStatus !== 'idle' && (
           <span
-            className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium transition-all duration-300 ${
-              saveStatus === 'saving'
+            className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium transition-all duration-300 ${saveStatus === 'saving'
                 ? 'bg-gray-700/60 text-gray-400'
                 : 'bg-emerald-500/10 text-emerald-400'
-            }`}
+              }`}
           >
             {saveStatus === 'saving' ? (
               <>
@@ -324,9 +323,8 @@ function Navbar({ projectName, setProjectName, onUndo, onRedo, canUndo, canRedo,
           onClick={onUndo}
           disabled={!canUndo}
           title="Undo (⌘Z)"
-          className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-gray-700 transition-all duration-150 ease-out hover:bg-[#333333] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-            canUndo ? 'text-gray-300' : 'cursor-not-allowed text-gray-600'
-          }`}
+          className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-gray-700 transition-all duration-150 ease-out hover:bg-[#333333] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${canUndo ? 'text-gray-300' : 'cursor-not-allowed text-gray-600'
+            }`}
         >
           <Undo2 className="h-3 w-3" />
         </button>
@@ -335,9 +333,8 @@ function Navbar({ projectName, setProjectName, onUndo, onRedo, canUndo, canRedo,
           onClick={onRedo}
           disabled={!canRedo}
           title="Redo (⌘⇧Z)"
-          className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-gray-700 transition-all duration-150 ease-out hover:bg-[#333333] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-            canRedo ? 'text-gray-300' : 'cursor-not-allowed text-gray-600'
-          }`}
+          className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-md border border-gray-700 transition-all duration-150 ease-out hover:bg-[#333333] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${canRedo ? 'text-gray-300' : 'cursor-not-allowed text-gray-600'
+            }`}
         >
           <Redo2 className="h-3 w-3" />
         </button>
@@ -352,18 +349,24 @@ function Navbar({ projectName, setProjectName, onUndo, onRedo, canUndo, canRedo,
           </button>
         )}
 
-        <button
-          type="button"
-          className="flex items-center gap-1 cursor-pointer rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 px-3 py-1 text-xs font-semibold text-black shadow-sm transition-all duration-150 ease-out hover:opacity-90 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-        >
-          <Crown className="h-3 w-3" />
-          <span>Upgrade</span>
-        </button>
+        {!isPro && (
+          <button
+            type="button"
+            onClick={() => navigate('/pricing')}
+            className="flex items-center gap-1 cursor-pointer rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 px-3 py-1 text-xs font-semibold text-black shadow-sm transition-all duration-150 ease-out hover:opacity-90 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          >
+            <Crown className="h-3 w-3" />
+            <span>Upgrade</span>
+          </button>
+        )}
 
         <ExportDropdown onExport={onDownload} isDownloading={isDownloading} />
 
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#333333] text-[10px] font-semibold text-white transition-all duration-150 ease-out">
-          <User className="h-3 w-3" />
+        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-[10px] font-bold text-white">
+          {isAuthenticated
+            ? (profile?.full_name?.[0] || user?.email?.[0] || 'U').toUpperCase()
+            : <User className="h-3 w-3" />
+          }
         </div>
       </div>
     </nav>

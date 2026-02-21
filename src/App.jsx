@@ -5,6 +5,7 @@ import SidebarPanel from './components/Sidebar/SidebarPanel'
 import CanvasArea from './components/Canvas/CanvasArea'
 import useCanvas from './hooks/useCanvas'
 import useDownload from './hooks/useDownload'
+import ExportLimitModal from './components/ExportLimitModal'
 import KeyboardShortcutsModal from './components/KeyboardShortcutsModal'
 import { useToast } from './components/Toast'
 import { autoSaveProject, saveProject, getCurrentProject } from './utils/projectStorage'
@@ -94,14 +95,14 @@ function App({ slidesHook, templateId, templateName }) {
 
   const toast = useToast()
   const { zoom, zoomIn, zoomOut, resetZoom, fitToViewport, showGrid, toggleGrid, snapToGrid, toggleSnapToGrid, gridSize, setGridSize, snapValue } = useCanvas()
-  const { isDownloading, downloadProgress, downloadAllSlides } = useDownload()
+  const { isDownloading, downloadProgress, downloadAllSlides, exportLimitReached, exportInfo, dismissExportLimit } = useDownload()
 
   const handleSelectElement = useCallback((elementId, isShiftClick = false) => {
     if (!elementId) {
       setSelectedElementIds([])
       return
     }
-    
+
     if (isShiftClick) {
       // Multi-select: toggle element in selection
       setSelectedElementIds((prev) => {
@@ -210,16 +211,16 @@ function App({ slidesHook, templateId, templateName }) {
         if (clipboardRef.current) {
           e.preventDefault()
           // Paste all copied elements
-          const elementsToPaste = Array.isArray(clipboardRef.current) 
-            ? clipboardRef.current 
+          const elementsToPaste = Array.isArray(clipboardRef.current)
+            ? clipboardRef.current
             : [clipboardRef.current]
-          
+
           elementsToPaste.forEach((element, index) => {
             const { id: _discardId, ...rest } = element
-            const pasted = { 
-              ...rest, 
-              x: (rest.x || 0) + 15 + (index * 10), 
-              y: (rest.y || 0) + 15 + (index * 10) 
+            const pasted = {
+              ...rest,
+              x: (rest.x || 0) + 15 + (index * 10),
+              y: (rest.y || 0) + 15 + (index * 10)
             }
             addElementToSlide(activeSlide, pasted)
           })
@@ -319,6 +320,7 @@ function App({ slidesHook, templateId, templateName }) {
         />
       </div>
       {showShortcuts && <KeyboardShortcutsModal onClose={() => setShowShortcuts(false)} />}
+      {exportLimitReached && <ExportLimitModal info={exportInfo} onDismiss={dismissExportLimit} />}
     </div>
   )
 }
