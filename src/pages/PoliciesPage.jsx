@@ -9,7 +9,9 @@ import { useToast } from '../components/Toast'
 import HostedDocsLayout from '../components/dashboard/HostedDocsLayout'
 
 function getBackendUrl() {
-    return import.meta.env.VITE_API_URL || 'http://localhost:8787'
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+    if (import.meta.env.DEV) return 'http://localhost:8787'
+    return 'https://mockupcreator-api.haider099alikhan-ui.workers.dev'
 }
 
 export default function PoliciesPage() {

@@ -7,7 +7,10 @@ import HostedDocsLayout from '../components/dashboard/HostedDocsLayout'
 import { Save, Info, ExternalLink, Check, Copy, Loader2 } from 'lucide-react'
 
 function getBackendUrl() {
-    return import.meta.env.VITE_API_URL || 'http://localhost:8787'
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+    // Automatically detect dev vs prod fallback
+    if (import.meta.env.DEV) return 'http://localhost:8787'
+    return 'https://mockupcreator-api.haider099alikhan-ui.workers.dev'
 }
 
 export default function AppAdsPage() {

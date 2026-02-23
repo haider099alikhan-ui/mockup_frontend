@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787'
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8787' : 'https://mockupcreator-api.haider099alikhan-ui.workers.dev')
 
 import { supabase } from '../lib/supabaseClient'
 
