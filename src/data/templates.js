@@ -150,6 +150,42 @@ export const templates = [
     ],
   },
 
+  // ─── GOOGLE PLAY 3D TEMPLATES ───────────────────────────────
+  {
+    id: 'play-3d-isometric',
+    name: '3D Isometric Play',
+    type: 'mockup',
+    badge: 'Pro',
+    slideCount: 2,
+    backgroundColor: '#121212',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.DARK,
+    ],
+    slides: [
+      { title: 'Isometric 3D Mockups', subtitle: 'A beautiful layered stack.' },
+      { title: 'Stand out on Google Play', subtitle: 'Premium presentation.' },
+    ],
+  },
+  {
+    id: 'play-3d-panoramic',
+    name: '3D Panoramic Split',
+    type: 'mockup',
+    badge: 'Pro',
+    slideCount: 2,
+    backgroundColor: '#f4f4f5',
+    categories: [
+      TEMPLATE_CATEGORIES.ALL,
+      TEMPLATE_CATEGORIES.MOCKUPS,
+      TEMPLATE_CATEGORIES.MINIMAL,
+    ],
+    slides: [
+      { title: 'A truly immersive', subtitle: 'Scroll horizontally.' },
+      { title: 'panoramic spread.', subtitle: 'Continuous layout.' },
+    ],
+  },
+
   // ─── 10 NEW ALGORITHMIC TEMPLATES ───────────────────────────
   // 1. Dark Theme: Dark Glow
   {
@@ -377,6 +413,27 @@ export const templates = [
     id: 'task-planner', name: 'Task Planner', type: 'screenshot', badge: 'Pro', slideCount: 5, backgroundColor: '#263238',
     categories: [TEMPLATE_CATEGORIES.ALL, TEMPLATE_CATEGORIES.DARK],
     slides: [{ title: 'Get stuff done', subtitle: 'Organize projects, tasks, and life.' }, { title: 'Kanban boards' }, { title: 'Team collaboration' }, { title: 'Smart reminders' }, { title: 'Plan your day' }],
+  },
+  // ─── NEW 3D KITS ──────────────────────────────────────────────
+  {
+    id: 'mockup-dark-float', name: '3D Dark Float Kit', type: 'mockup', badge: 'Pro', slideCount: 5, backgroundColor: '#0a0a0a',
+    categories: [TEMPLATE_CATEGORIES.ALL, TEMPLATE_CATEGORIES.MOCKUPS, TEMPLATE_CATEGORIES.DARK, '3D Devices'],
+    slides: [{ title: 'Experience The Future', subtitle: 'Designed for those who demand the best' }, { title: 'Powerful Features', subtitle: 'Everything built for you' }, { title: 'Loved By Millions', subtitle: '4.9★ rating' }, { title: 'Simple To Use', subtitle: 'Get started in seconds' }, { title: 'Download Now', subtitle: 'Free to get started' }],
+  },
+  {
+    id: 'mockup-perspective-navy', name: '3D Perspective Navy Kit', type: 'mockup', badge: 'Pro', slideCount: 5, backgroundColor: '#0f172a',
+    categories: [TEMPLATE_CATEGORIES.ALL, TEMPLATE_CATEGORIES.MOCKUPS, TEMPLATE_CATEGORIES.DARK, '3D Devices'],
+    slides: [{ title: 'Everything You Need', subtitle: 'One app for everything' }, { title: 'Discover More', subtitle: 'Curated just for you' }, { title: 'Trusted Worldwide', subtitle: '10M+ Users' }, { title: 'Blazing Fast', subtitle: 'Zero lag. Pure performance.' }, { title: 'Join Millions Today', subtitle: 'Available now' }],
+  },
+  {
+    id: 'mockup-colorful-blast', name: '3D Colorful Blast Kit', type: 'mockup', badge: 'Pro', slideCount: 5, backgroundColor: '#ec4899',
+    categories: [TEMPLATE_CATEGORIES.ALL, TEMPLATE_CATEGORIES.MOCKUPS, TEMPLATE_CATEGORIES.COLORFUL, '3D Devices'],
+    slides: [{ title: 'Your Life. Simplified.', subtitle: 'Editor Choice' }, { title: 'Packed With Features', subtitle: 'You asked. We built it.' }, { title: 'Join The Community', subtitle: '2M+ Active Users' }, { title: 'Deals Every Day', subtitle: 'UP TO 70% OFF' }, { title: 'Get Started Free', subtitle: 'No credit card needed' }],
+  },
+  {
+    id: 'mockup-glass-morphism', name: '3D Glass Morphism Kit', type: 'mockup', badge: 'Pro', slideCount: 5, backgroundColor: '#e0f2fe',
+    categories: [TEMPLATE_CATEGORIES.ALL, TEMPLATE_CATEGORIES.MOCKUPS, TEMPLATE_CATEGORIES.MINIMAL, '3D Devices'],
+    slides: [{ title: 'Pure. Simple. Powerful.', subtitle: 'The app everyone is talking about' }, { title: 'Beautiful By Design', subtitle: 'Every pixel. Perfected.' }, { title: 'Your Privacy Matters', subtitle: '100% secure. Always encrypted.' }, { title: 'Works Everywhere', subtitle: 'Syncs across all your devices' }, { title: 'Download For Free', subtitle: 'Available on iOS and Android' }],
   },
 ]
 

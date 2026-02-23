@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { api } from '../services/api'
-import { ArrowLeft, Save, Copy, ExternalLink, Check, Info, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import { useToast } from '../components/Toast'
 import HostedDocsLayout from '../components/dashboard/HostedDocsLayout'
+import { Save, Info, ExternalLink, Check, Copy, Loader2 } from 'lucide-react'
 
 function getBackendUrl() {
     return import.meta.env.VITE_API_URL || 'http://localhost:8787'
@@ -15,6 +16,7 @@ export default function AppAdsPage() {
     const [isLoading, setIsLoading] = useState(true)
     const [isSaving, setIsSaving] = useState(false)
     const [copied, setCopied] = useState(false)
+    const { profile } = useAuth()
     const navigate = useNavigate()
     const toast = useToast()
 
@@ -64,14 +66,14 @@ export default function AppAdsPage() {
 
     const handleCopyLink = () => {
         if (!doc?.id) return
-        const publicUrl = `${getBackendUrl()}/p/${doc.id}`
+        if (!publicUrl) return
         navigator.clipboard.writeText(publicUrl)
         setCopied(true)
         toast('Link copied to clipboard!', 'success')
         setTimeout(() => setCopied(false), 2000)
     }
 
-    const publicUrl = doc?.id ? `${getBackendUrl()}/p/${doc.id}` : null
+    const publicUrl = (doc?.id && profile?.id) ? `${getBackendUrl()}/u/${profile.id}/ads.txt` : null
 
     return (
         <HostedDocsLayout title="app-ads.txt" subtitle="Manage your App Store ad monetization verifier file.">
@@ -128,8 +130,8 @@ export default function AppAdsPage() {
                                 </div>
                                 <div className="flex gap-3 w-full sm:w-auto shrink-0 pl-16 sm:pl-0">
                                     <a
-                                        href={publicUrl}
-                                        target="_blank"
+                                        href={publicUrl || '#'}
+                                        target={publicUrl ? '_blank' : '_self'}
                                         rel="noreferrer"
                                         className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ring-1 ring-inset ring-gray-600/50"
                                     >

@@ -1,38 +1,49 @@
 import { memo, useCallback, useRef, useState } from 'react'
 import { AppStoreScreen, SocialMediaScreen, EcommerceScreen, DashboardScreen, FitnessScreen, MusicScreen } from './DetailedScreen'
 
+import { Upload } from 'lucide-react'
+
 function WireframeScreen() {
   return (
-    <div className="flex h-full w-full flex-col bg-white px-[8%] pb-[4%] pt-[12%]">
-      <div className="mb-[6%] flex items-center justify-between">
-        <div className="h-[3px] w-[22%] rounded-full bg-gray-200" />
-        <div className="flex gap-[4%]">
-          <div className="h-[7px] w-[7px] rounded-full bg-gray-200" />
-          <div className="h-[7px] w-[7px] rounded-full bg-gray-200" />
+    <div className="relative flex h-full w-full flex-col bg-white px-[8%] pb-[4%] pt-[12%]">
+      {/* Upload Hint Overlay */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-200 hover:opacity-100 group-hover:opacity-100">
+        <div className="flex flex-col items-center justify-center rounded-xl bg-black/80 px-4 py-3 text-center shadow-lg backdrop-blur-sm">
+          <Upload className="mb-1.5 h-6 w-6 text-white" />
+          <span className="text-[11px] font-semibold text-white">Upload Screenshot</span>
+          <span className="mt-1 text-[9px] text-gray-300">Double-click or drag & drop</span>
         </div>
       </div>
-      <div className="mb-[5%] h-[20%] w-full rounded-xl bg-gray-100" />
-      <div className="mb-[4%] flex gap-[4%]">
-        <div className="h-[14px] flex-1 rounded-md bg-gray-200" />
-        <div className="h-[14px] flex-1 rounded-md bg-gray-100" />
-        <div className="h-[14px] flex-1 rounded-md bg-gray-100" />
+
+      <div className="mb-[6%] flex items-center justify-between opacity-50">
+        <div className="h-[3px] w-[22%] rounded-full bg-gray-300" />
+        <div className="flex gap-[4%]">
+          <div className="h-[7px] w-[7px] rounded-full bg-gray-300" />
+          <div className="h-[7px] w-[7px] rounded-full bg-gray-300" />
+        </div>
       </div>
-      <div className="space-y-[8%]">
+      <div className="mb-[5%] h-[20%] w-full rounded-xl bg-gray-200 opacity-50" />
+      <div className="mb-[4%] flex gap-[4%] opacity-50">
+        <div className="h-[14px] flex-1 rounded-md bg-gray-300" />
+        <div className="h-[14px] flex-1 rounded-md bg-gray-200" />
+        <div className="h-[14px] flex-1 rounded-md bg-gray-200" />
+      </div>
+      <div className="space-y-[8%] opacity-50">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="flex items-center gap-[5%]">
-            <div className="h-[14px] w-[14px] shrink-0 rounded-md bg-gray-100" />
+            <div className="h-[14px] w-[14px] shrink-0 rounded-md bg-gray-200" />
             <div className="flex-1 space-y-[4px]">
-              <div className="h-[3px] w-[75%] rounded-full bg-gray-200" />
-              <div className="h-[2px] w-[55%] rounded-full bg-gray-100" />
+              <div className="h-[3px] w-[75%] rounded-full bg-gray-300" />
+              <div className="h-[2px] w-[55%] rounded-full bg-gray-200" />
             </div>
           </div>
         ))}
       </div>
-      <div className="mt-auto flex justify-around border-t border-gray-100 pt-[5%]">
+      <div className="mt-auto flex justify-around border-t border-gray-200 pt-[5%] opacity-50">
         {[1, 2, 3, 4, 5].map((i) => (
           <div key={i} className="flex flex-col items-center gap-[2px]">
-            <div className="h-[5px] w-[5px] rounded bg-gray-200" />
-            <div className="h-[2px] w-[10px] rounded-full bg-gray-100" />
+            <div className="h-[5px] w-[5px] rounded bg-gray-300" />
+            <div className="h-[2px] w-[10px] rounded-full bg-gray-200" />
           </div>
         ))}
       </div>
@@ -145,8 +156,14 @@ function DeviceFrame({ element, onChange, isSelected, onSelect, containerRef, ca
   )
 
   const rotation = element.style?.rotation || 0
-  const borderRadius = Math.min(element.width, element.height) * 0.18
-  const screenRadius = borderRadius * 0.82
+  const rotateX = element.style?.rotateX || 0
+  const rotateY = element.style?.rotateY || 0
+  const isTablet = element.platform === 'tablet'
+
+  // Adjust radii based on platform
+  const baseRadius = Math.min(element.width, element.height) * (isTablet ? 0.08 : 0.18)
+  const borderRadius = baseRadius
+  const screenRadius = isTablet ? baseRadius * 0.9 : baseRadius * 0.82
 
   return (
     <div
@@ -167,190 +184,285 @@ function DeviceFrame({ element, onChange, isSelected, onSelect, containerRef, ca
         top: element.y,
         width: element.width,
         height: element.height,
-        transform: `rotate(${rotation}deg)`,
-        transformOrigin: 'center',
+        // Apply 3D perspective to the container
+        perspective: '1200px',
+        transformStyle: 'preserve-3d',
         opacity: element.isLocked ? 0.7 : 1,
         pointerEvents: element.isLocked ? 'none' : 'auto',
       }}
-      className={isDragging || isResizing ? 'cursor-grabbing' : 'cursor-grab'}
+      className={`group/device ${isDragging || isResizing ? 'cursor-grabbing' : 'cursor-grab'}`}
     >
-      {isSelected && (
-        <>
-          <div
-            className="pointer-events-none absolute -inset-1 border-2 border-blue-500"
-            style={{ zIndex: 50, borderRadius: borderRadius + 4 }}
-          />
-          <div
-            onMouseDown={handleResizeDown}
-            className="absolute -bottom-1.5 -right-1.5 h-3 w-3 cursor-nwse-resize rounded-full border-2 border-blue-500 bg-white"
-            style={{ zIndex: 51 }}
-          />
-        </>
-      )}
       <div
-        className="relative flex h-full w-full items-center justify-center shadow-2xl will-change-transform"
+        className="absolute inset-0 transition-transform duration-100 ease-out"
         style={{
-          borderRadius,
-          border: '2px solid #333',
-          background: 'linear-gradient(145deg, #1a1a1a 0%, #000000 100%)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
+          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotation}deg)`,
+          transformStyle: 'preserve-3d',
         }}
       >
-        {/* Dynamic Island */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 bg-black"
-          style={{
-            top: element.height * 0.018,
-            width: element.width * 0.28,
-            height: element.height * 0.022,
-            borderRadius: 99,
-            zIndex: 10,
-          }}
-        />
-        {/* Side button right */}
-        <div
-          className="absolute bg-gray-600"
-          style={{
-            right: -1.5,
-            top: element.height * 0.2,
-            width: 1.5,
-            height: element.height * 0.08,
-            borderRadius: '0 2px 2px 0',
-          }}
-        />
-        {/* Volume buttons left */}
-        <div
-          className="absolute bg-gray-600"
-          style={{
-            left: -1.5,
-            top: element.height * 0.18,
-            width: 1.5,
-            height: element.height * 0.05,
-            borderRadius: '2px 0 0 2px',
-          }}
-        />
-        <div
-          className="absolute bg-gray-600"
-          style={{
-            left: -1.5,
-            top: element.height * 0.26,
-            width: 1.5,
-            height: element.height * 0.05,
-            borderRadius: '2px 0 0 2px',
-          }}
-        />
-        <button
-          type="button"
-          onDoubleClick={(e) => {
-            e.stopPropagation()
-            e.preventDefault()
-            fileInputRef.current?.click()
-          }}
-          onMouseDown={(e) => {
-            // Don't stop propagation - allow parent drag handler to work
-            // This allows dragging to work normally
-          }}
-          className="group relative overflow-hidden"
-          style={{
-            width: '92%',
-            height: '95%',
-            borderRadius: screenRadius,
-            backgroundColor: '#111',
-          }}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          {element.screenshot ? (
-            <>
-              <img
-                src={element.screenshot}
-                alt="Device screenshot"
-                loading="lazy"
-                onLoad={() => setIsLoadingImage(false)}
-                className="h-full w-full object-cover transition-opacity duration-200 ease-out"
-              />
-              {isLoadingImage && (
-                <div className="absolute inset-0 animate-pulse-soft bg-gray-800/60" />
-              )}
-              <div className="pointer-events-none absolute inset-0 flex items-end justify-center">
-                <span className="mb-2 rounded-full bg-black/60 px-3 py-1 text-[9px] text-white opacity-0 transition-opacity group-hover:opacity-100">
-                  Change Photo
-                </span>
-              </div>
-            </>
-          ) : element.screenType ? (
-            // Show detailed screen preview based on screenType
-            (() => {
-              const screens = {
-                'app-store': <AppStoreScreen />,
-                'social': <SocialMediaScreen />,
-                'ecommerce': <EcommerceScreen />,
-                'dashboard': <DashboardScreen />,
-                'fitness': <FitnessScreen />,
-                'music': <MusicScreen />,
-              }
-              return screens[element.screenType] || <WireframeScreen />
-            })()
-          ) : element.style?.screenGradient ? (
-            // Show the template's screen gradient with a polished UI overlay
-            <div className="h-full w-full" style={{ background: element.style.screenGradient }}>
-              <div className="flex h-full w-full flex-col px-[8%] pb-[4%] pt-[10%]">
-                {/* Status bar */}
-                <div className="mb-[6%] flex items-center justify-between">
-                  <div className="h-[3px] w-[20%] rounded-full bg-white/30" />
-                  <div className="flex gap-[4%]">
-                    <div className="h-[5px] w-[5px] rounded-full bg-white/30" />
-                    <div className="h-[5px] w-[5px] rounded-full bg-white/30" />
-                  </div>
-                </div>
-                {/* Hero card */}
-                <div className="mb-[5%] h-[22%] w-full rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)', border: '1px solid rgba(255,255,255,0.1)' }} />
-                {/* Tab bar */}
-                <div className="mb-[4%] flex gap-[4%]">
-                  <div className="h-[12px] flex-1 rounded-md bg-white/20" />
-                  <div className="h-[12px] flex-1 rounded-md bg-white/10" />
-                  <div className="h-[12px] flex-1 rounded-md bg-white/10" />
-                </div>
-                {/* Content rows */}
-                <div className="space-y-[8%]">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="flex items-center gap-[5%]">
-                      <div className="h-[14px] w-[14px] shrink-0 rounded-md bg-white/15" />
-                      <div className="flex-1 space-y-[4px]">
-                        <div className="h-[3px] rounded-full bg-white/25" style={{ width: `${75 - i * 8}%` }} />
-                        <div className="h-[2px] rounded-full bg-white/12" style={{ width: `${55 - i * 5}%` }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {/* Bottom nav */}
-                <div className="mt-auto flex justify-around border-t border-white/10 pt-[5%]">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="flex flex-col items-center gap-[2px]">
-                      <div className={`h-[5px] w-[5px] rounded ${i === 1 ? 'bg-white/50' : 'bg-white/15'}`} />
-                      <div className="h-[2px] w-[10px] rounded-full bg-white/10" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <WireframeScreen />
-          )}
-          {/* Glass reflection overlay */}
+        {/* Dynamic 3D Floor Shadow */}
+        {(rotateX !== 0 || rotateY !== 0) && (
           <div
-            className="pointer-events-none absolute inset-0"
+            className="pointer-events-none absolute -inset-4 rounded-3xl"
             style={{
-              background: 'linear-gradient(165deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 25%, transparent 50%)',
-              borderRadius: screenRadius,
+              background: 'rgba(0,0,0,0.15)',
+              filter: 'blur(20px)',
+              transform: 'translateZ(-50px)',
             }}
           />
-        </button>
+        )}
+        {isSelected && (
+          <>
+            <div
+              className="pointer-events-none absolute -inset-1 border-2 border-blue-500"
+              style={{ zIndex: 50, borderRadius: borderRadius + 4 }}
+            />
+            <div
+              onMouseDown={handleResizeDown}
+              className="absolute -bottom-1.5 -right-1.5 h-3 w-3 cursor-nwse-resize rounded-full border-2 border-blue-500 bg-white"
+              style={{ zIndex: 51 }}
+            />
+          </>
+        )}
+        <div
+          className="relative flex h-full w-full items-center justify-center shadow-2xl will-change-transform"
+          style={{
+            borderRadius,
+            border: isTablet ? '4px solid #333' : '2px solid #333',
+            background: isTablet
+              ? 'linear-gradient(145deg, #111 0%, #000 100%)'
+              : 'linear-gradient(145deg, #1a1a1a 0%, #000000 100%)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
+          }}
+        >
+          {/* Device specific hardware (Notch/Hole-punch/Bezels) */}
+          {!element.platform || element.platform === 'ios' ? (
+            <>
+              {/* iOS Dynamic Island */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 bg-black"
+                style={{
+                  top: element.height * 0.018,
+                  width: element.width * 0.28,
+                  height: element.height * 0.022,
+                  borderRadius: 99,
+                  zIndex: 10,
+                }}
+              />
+              {/* Side button right */}
+              <div
+                className="absolute bg-gray-600"
+                style={{
+                  right: -1.5,
+                  top: element.height * 0.2,
+                  width: 1.5,
+                  height: element.height * 0.08,
+                  borderRadius: '0 2px 2px 0',
+                }}
+              />
+              {/* Volume buttons left */}
+              <div
+                className="absolute bg-gray-600"
+                style={{
+                  left: -1.5,
+                  top: element.height * 0.18,
+                  width: 1.5,
+                  height: element.height * 0.05,
+                  borderRadius: '2px 0 0 2px',
+                }}
+              />
+              <div
+                className="absolute bg-gray-600"
+                style={{
+                  left: -1.5,
+                  top: element.height * 0.26,
+                  width: 1.5,
+                  height: element.height * 0.05,
+                  borderRadius: '2px 0 0 2px',
+                }}
+              />
+            </>
+          ) : element.platform === 'android' ? (
+            <>
+              {/* Android Hole Punch Camera */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 bg-black"
+                style={{
+                  top: element.height * 0.02,
+                  width: element.width * 0.06,
+                  height: element.width * 0.06,
+                  borderRadius: '50%',
+                  zIndex: 10,
+                }}
+              />
+              {/* Side buttons right (Power and Volume) */}
+              <div
+                className="absolute bg-gray-600"
+                style={{
+                  right: -1.5,
+                  top: element.height * 0.15,
+                  width: 1.5,
+                  height: element.height * 0.15,
+                  borderRadius: '0 2px 2px 0',
+                }}
+              />
+              <div
+                className="absolute bg-gray-600"
+                style={{
+                  right: -1.5,
+                  top: element.height * 0.32,
+                  width: 1.5,
+                  height: element.height * 0.08,
+                  borderRadius: '0 2px 2px 0',
+                }}
+              />
+            </>
+          ) : (
+            <>
+              {/* Tablet Camera (Subtle bezel dot) */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 bg-gray-800"
+                style={{
+                  top: element.height * 0.015,
+                  width: Math.min(element.width, element.height) * 0.02,
+                  height: Math.min(element.width, element.height) * 0.02,
+                  borderRadius: '50%',
+                  zIndex: 10,
+                }}
+              />
+              <div
+                className="absolute left-1/2 -translate-x-1/2 bg-black"
+                style={{
+                  top: element.height * 0.015 + (Math.min(element.width, element.height) * 0.005),
+                  width: Math.min(element.width, element.height) * 0.01,
+                  height: Math.min(element.width, element.height) * 0.01,
+                  borderRadius: '50%',
+                  zIndex: 11,
+                }}
+              />
+            </>
+          )}
+          <button
+            type="button"
+            onDoubleClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              fileInputRef.current?.click()
+            }}
+            onMouseDown={(e) => {
+              // Don't stop propagation - allow parent drag handler to work
+              // This allows dragging to work normally
+            }}
+            className="group relative overflow-hidden"
+            style={{
+              width: '92%',
+              height: '95%',
+              borderRadius: screenRadius,
+              backgroundColor: '#111',
+            }}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            {element.screenshot ? (
+              <>
+                <img
+                  src={element.screenshot}
+                  alt="Device screenshot"
+                  loading="lazy"
+                  onLoad={() => setIsLoadingImage(false)}
+                  className="h-full w-full object-cover transition-opacity duration-200 ease-out"
+                />
+                {isLoadingImage && (
+                  <div className="absolute inset-0 animate-pulse-soft bg-gray-800/60" />
+                )}
+                <div className="pointer-events-none absolute inset-0 flex items-end justify-center">
+                  <span className="mb-2 rounded-full bg-black/60 px-3 py-1 text-[9px] text-white opacity-0 transition-opacity group-hover:opacity-100">
+                    Change Photo
+                  </span>
+                </div>
+              </>
+            ) : element.screenType ? (
+              // Show detailed screen preview based on screenType
+              (() => {
+                const screens = {
+                  'app-store': <AppStoreScreen />,
+                  'social': <SocialMediaScreen />,
+                  'ecommerce': <EcommerceScreen />,
+                  'dashboard': <DashboardScreen />,
+                  'fitness': <FitnessScreen />,
+                  'music': <MusicScreen />,
+                }
+                return screens[element.screenType] || <WireframeScreen />
+              })()
+            ) : element.style?.screenGradient ? (
+              // Show the template's screen gradient with a polished UI overlay
+              <div className="relative h-full w-full group/screen" style={{ background: element.style.screenGradient }}>
+                {/* Upload Hint Overlay */}
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/40 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-hover/screen:opacity-100">
+                  <div className="flex flex-col items-center justify-center rounded-xl bg-black/80 px-4 py-3 text-center shadow-lg backdrop-blur-sm">
+                    <Upload className="mb-1.5 h-6 w-6 text-white" />
+                    <span className="text-[11px] font-semibold text-white">Upload Screenshot</span>
+                    <span className="mt-1 text-[9px] text-gray-200">Double-click or drag & drop</span>
+                  </div>
+                </div>
+
+                <div className="flex h-full w-full flex-col px-[8%] pb-[4%] pt-[10%] opacity-60">
+                  {/* Status bar */}
+                  <div className="mb-[6%] flex items-center justify-between">
+                    <div className="h-[3px] w-[20%] rounded-full bg-white/30" />
+                    <div className="flex gap-[4%]">
+                      <div className="h-[5px] w-[5px] rounded-full bg-white/30" />
+                      <div className="h-[5px] w-[5px] rounded-full bg-white/30" />
+                    </div>
+                  </div>
+                  {/* Hero card */}
+                  <div className="mb-[5%] h-[22%] w-full rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)', border: '1px solid rgba(255,255,255,0.1)' }} />
+                  {/* Tab bar */}
+                  <div className="mb-[4%] flex gap-[4%]">
+                    <div className="h-[12px] flex-1 rounded-md bg-white/20" />
+                    <div className="h-[12px] flex-1 rounded-md bg-white/10" />
+                    <div className="h-[12px] flex-1 rounded-md bg-white/10" />
+                  </div>
+                  {/* Content rows */}
+                  <div className="space-y-[8%]">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="flex items-center gap-[5%]">
+                        <div className="h-[14px] w-[14px] shrink-0 rounded-md bg-white/15" />
+                        <div className="flex-1 space-y-[4px]">
+                          <div className="h-[3px] rounded-full bg-white/25" style={{ width: `${75 - i * 8}%` }} />
+                          <div className="h-[2px] rounded-full bg-white/12" style={{ width: `${55 - i * 5}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Bottom nav */}
+                  <div className="mt-auto flex justify-around border-t border-white/10 pt-[5%]">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div key={i} className="flex flex-col items-center gap-[2px]">
+                        <div className={`h-[5px] w-[5px] rounded ${i === 1 ? 'bg-white/50' : 'bg-white/15'}`} />
+                        <div className="h-[2px] w-[10px] rounded-full bg-white/10" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <WireframeScreen />
+            )}
+            {/* Glass reflection overlay */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background: 'linear-gradient(165deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 25%, transparent 50%)',
+                borderRadius: screenRadius,
+              }}
+            />
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -493,6 +493,332 @@ export function buildMockupAbstractWaves(t) {
   ]
 }
 
+// ─── GOOGLE PLAY 3D TEMPLATES ──────────────────────────────────
+// 1. Isometric Android (Stacked left to right)
+export function buildPlay3DIsometric(t) {
+  const bg = '#121212'
+  const W = 1080
+  const H = 1920
+
+  return [
+    bs(1, {
+      backgroundColor: bg,
+      width: W, height: H,
+      elements: [
+        { id: 'iso1-blob', type: 'blob', x: -200, y: 1200, width: 800, height: 800, style: { color: '#00D2FF', opacity: 0.15, borderRadius: '400px' } },
+        { id: 'iso1-title', type: 'text', x: 80, y: 200, width: 920, height: 200, content: 'Isometric\n3D Mockups', style: { fontSize: 80, fontWeight: '900', color: '#FFFFFF', align: 'left', lineHeight: 95 } },
+        { id: 'iso1-device3', type: 'device', x: 500, y: 900, width: 440, height: 920, style: { rotateX: 25, rotateY: -35, rotation: -5 }, platform: 'android' },
+        { id: 'iso1-device2', type: 'device', x: 280, y: 700, width: 440, height: 920, style: { rotateX: 25, rotateY: -35, rotation: -5 }, platform: 'android' },
+        { id: 'iso1-device1', type: 'device', x: 60, y: 500, width: 440, height: 920, style: { rotateX: 25, rotateY: -35, rotation: -5 }, platform: 'android' }
+      ]
+    }),
+    bs(2, {
+      backgroundColor: bg,
+      width: W, height: H,
+      elements: [
+        { id: 'iso2-title', type: 'text', x: 80, y: 200, width: 920, height: 200, content: 'Stand out on\nGoogle Play', style: { fontSize: 80, fontWeight: '900', color: '#FFFFFF', align: 'left', lineHeight: 95 } },
+        { id: 'iso2-device', type: 'device', x: 120, y: 600, width: 840, height: 1760, style: { rotateX: 30, rotateY: -15, rotation: 0 }, platform: 'android' }
+      ]
+    })
+  ]
+}
+
+// 2. Panoramic Split
+export function buildPlay3DPanoramic(t) {
+  const bg = '#f4f4f5'
+  const W = 1080
+  const H = 1920
+
+  // The device is positioned halfway off the screen on Slide 1, and halfway on Slide 2
+  const deviceWidth = 840
+  const deviceHeight = 1760
+  const yPos = 400
+
+  return [
+    bs(1, {
+      backgroundColor: bg,
+      width: W, height: H,
+      elements: [
+        { id: 'pan1-title', type: 'text', x: 100, y: 200, width: 880, height: 100, content: 'A truly immersive', style: { fontSize: 72, fontWeight: '800', color: '#18181b', align: 'left' } },
+        // Right side of slide 1, rotated away
+        { id: 'pan1-device', type: 'device', x: W - (deviceWidth / 2), y: yPos, width: deviceWidth, height: deviceHeight, style: { rotateX: 10, rotateY: -30, rotation: 0 }, platform: 'android' }
+      ]
+    }),
+    bs(2, {
+      backgroundColor: bg,
+      width: W, height: H,
+      elements: [
+        { id: 'pan2-title', type: 'text', x: 100, y: 200, width: 880, height: 100, content: 'panoramic spread.', style: { fontSize: 72, fontWeight: '800', color: '#18181b', align: 'right' } },
+        // Left side of slide 2, facing slightly inward
+        { id: 'pan2-device', type: 'device', x: -(deviceWidth / 2), y: yPos, width: deviceWidth, height: deviceHeight, style: { rotateX: 10, rotateY: 15, rotation: 0 }, platform: 'android' }
+      ]
+    })
+  ]
+}
+
+// ─── 3D DARK FLOAT KIT ─────────────────────────────────────────
+export function buildMockupDarkFloat(t) {
+  const bg = '#0a0a0a'
+  const W = 1080
+  const H = 1920
+
+  return [
+    bs(1, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'df1-glow', type: 'blob', x: -200, y: 800, width: 1400, height: 1400, style: { color: '#8b5cf6', opacity: 0.15, borderRadius: '50%' } },
+        { id: 'df1-title', type: 'text', x: 80, y: 200, width: 920, height: 120, content: 'Experience\nThe Future', style: { fontSize: 90, fontWeight: '900', color: '#ffffff', align: 'center', lineHeight: 100 } },
+        { id: 'df1-sub', type: 'text', x: 80, y: 440, width: 920, height: 60, content: 'Designed for those who demand the best', style: { fontSize: 36, fontWeight: '400', color: '#a3a3a3', align: 'center' } },
+        { id: 'df1-device1', type: 'device', x: 120, y: 650, width: 440, height: 920, style: { rotateX: 15, rotateY: -10, rotation: -15 }, platform: 'ios' },
+        { id: 'df1-device2', type: 'device', x: 500, y: 750, width: 460, height: 960, style: { rotateX: 10, rotateY: 15, rotation: 10 }, platform: 'ios' },
+        { id: 'df1-badge', type: 'badge', x: 390, y: 1750, width: 300, height: 70, content: 'Download on App Store', style: { bgColor: '#ffffff', color: '#000000', fontSize: 18, fontWeight: '700', borderRadius: 35 } }
+      ]
+    }),
+    bs(2, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'df2-title', type: 'text', x: 100, y: 220, width: 880, height: 100, content: 'Powerful Features', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'df2-sub', type: 'text', x: 100, y: 340, width: 880, height: 60, content: 'Everything built for you', style: { fontSize: 36, color: '#a3a3a3', align: 'center' } },
+        { id: 'df2-device', type: 'device', x: 340, y: 550, width: 520, height: 1090, style: { rotateX: 15, rotateY: -10, rotation: -8 }, platform: 'ios' },
+        { id: 'df2-f1', type: 'badge', x: 80, y: 700, width: 220, height: 70, content: '✨ Blazing Fast', style: { bgColor: '#1f1f1f', color: '#ffffff', fontSize: 20, fontWeight: '600', borderRadius: 20 } },
+        { id: 'df2-f2', type: 'badge', x: 50, y: 920, width: 200, height: 70, content: '🔒 100% Secure', style: { bgColor: '#1f1f1f', color: '#ffffff', fontSize: 20, fontWeight: '600', borderRadius: 20 } },
+        { id: 'df2-f3', type: 'badge', x: 100, y: 1140, width: 200, height: 70, content: '🎨 Beautiful UI', style: { bgColor: '#1f1f1f', color: '#ffffff', fontSize: 20, fontWeight: '600', borderRadius: 20 } }
+      ]
+    }),
+    bs(3, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'df3-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Loved By Millions', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'df3-laurel', type: 'text', x: 80, y: 340, width: 920, height: 60, content: '🌿    🌿', style: { fontSize: 50, color: '#8b5cf6', align: 'center', letterSpacing: 80 } },
+        { id: 'df3-device1', type: 'device', x: 120, y: 600, width: 440, height: 920, style: { rotateX: 10, rotateY: 15, rotation: -4 }, platform: 'ios' },
+        { id: 'df3-device2', type: 'device', x: 520, y: 650, width: 440, height: 920, style: { rotateX: 10, rotateY: -15, rotation: 5 }, platform: 'ios' },
+        { id: 'df3-rating', type: 'badge', x: 390, y: 1650, width: 300, height: 120, content: '4.9 ★', style: { bgColor: '#8b5cf6', color: '#ffffff', fontSize: 60, fontWeight: '900', borderRadius: 40 } }
+      ]
+    }),
+    bs(4, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'df4-title', type: 'text', x: 80, y: 200, width: 920, height: 100, content: 'Simple To Use', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'df4-sub', type: 'text', x: 80, y: 320, width: 920, height: 60, content: 'Get started in seconds', style: { fontSize: 36, color: '#a3a3a3', align: 'center' } },
+        // Three perspective phones
+        { id: 'df4-device1', type: 'device', x: 50, y: 600, width: 300, height: 630, style: { rotateX: 20, rotateY: 30, rotation: 0 }, platform: 'ios' },
+        { id: 'df4-device2', type: 'device', x: 310, y: 550, width: 400, height: 840, style: { rotateX: 15, rotateY: 10, rotation: 0 }, platform: 'ios' },
+        { id: 'df4-device3', type: 'device', x: 670, y: 500, width: 460, height: 960, style: { rotateX: 10, rotateY: -20, rotation: 0 }, platform: 'ios' },
+        { id: 'df4-s1', type: 'badge', x: 160, y: 1550, width: 80, height: 80, content: '1', style: { bgColor: '#8b5cf6', color: '#ffffff', fontSize: 40, fontWeight: '800', borderRadius: 40 } },
+        { id: 'df4-s2', type: 'badge', x: 470, y: 1550, width: 80, height: 80, content: '2', style: { bgColor: '#8b5cf6', color: '#ffffff', fontSize: 40, fontWeight: '800', borderRadius: 40 } },
+        { id: 'df4-s3', type: 'badge', x: 860, y: 1550, width: 80, height: 80, content: '3', style: { bgColor: '#8b5cf6', color: '#ffffff', fontSize: 40, fontWeight: '800', borderRadius: 40 } }
+      ]
+    }),
+    bs(5, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'df5-glow', type: 'blob', x: -100, y: 400, width: 1280, height: 1280, style: { color: '#8b5cf6', opacity: 0.25, borderRadius: '50%' } },
+        { id: 'df5-title', type: 'text', x: 80, y: 250, width: 920, height: 100, content: 'Download Now', style: { fontSize: 90, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'df5-sub', type: 'text', x: 80, y: 370, width: 920, height: 60, content: 'Free to get started', style: { fontSize: 36, color: '#a3a3a3', align: 'center' } },
+        { id: 'df5-device', type: 'device', x: 280, y: 550, width: 520, height: 1090, style: { rotateX: -5, rotateY: 0, rotation: 0 }, platform: 'ios' },
+        { id: 'df5-app', type: 'badge', x: 280, y: 1720, width: 240, height: 75, content: 'App Store', style: { bgColor: '#ffffff', color: '#000000', fontSize: 22, fontWeight: '700', borderRadius: 20 } },
+        { id: 'df5-gp', type: 'badge', x: 550, y: 1720, width: 240, height: 75, content: 'Google Play', style: { bgColor: '#ffffff', color: '#000000', fontSize: 22, fontWeight: '700', borderRadius: 20 } }
+      ]
+    })
+  ]
+}
+
+// ─── 3D PERSPECTIVE NAVY KIT ──────────────────────────────────
+export function buildMockupPerspectiveNavy(t) {
+  const bg = '#0f172a'
+  const W = 1080
+  const H = 1920
+
+  return [
+    bs(1, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'pn1-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Everything You Need', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'pn1-sub', type: 'text', x: 80, y: 340, width: 920, height: 60, content: 'One app for everything', style: { fontSize: 36, color: '#94a3b8', align: 'center' } },
+        { id: 'pn1-device1', type: 'device', x: -50, y: 650, width: 400, height: 840, style: { rotateX: 10, rotateY: 35, rotation: 5 }, platform: 'ios' },
+        { id: 'pn1-device2', type: 'device', x: 730, y: 650, width: 400, height: 840, style: { rotateX: 10, rotateY: -35, rotation: -5 }, platform: 'ios' },
+        { id: 'pn1-device3', type: 'device', x: 280, y: 500, width: 520, height: 1090, style: { rotateX: 0, rotateY: 0, rotation: 0 }, platform: 'ios' },
+        { id: 'pn1-star', type: 'badge', x: 120, y: 1650, width: 80, height: 80, content: '★', style: { bgColor: '#fbbf24', color: '#fff', fontSize: 40, borderRadius: 40 } }
+      ]
+    }),
+    bs(2, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'pn2-grid', type: 'blob', x: 100, y: 100, width: 880, height: 1720, style: { color: '#06b6d4', opacity: 0.05, borderRadius: '20px' } },
+        { id: 'pn2-title', type: 'text', x: 80, y: 250, width: 920, height: 100, content: 'Discover More', style: { fontSize: 84, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'pn2-sub', type: 'text', x: 80, y: 370, width: 920, height: 60, content: 'Curated just for you', style: { fontSize: 36, color: '#06b6d4', align: 'center' } },
+        { id: 'pn2-device1', type: 'device', x: 180, y: 600, width: 460, height: 960, style: { rotateX: 10, rotateY: 20, rotation: -6 }, platform: 'ios' },
+        { id: 'pn2-device2', type: 'device', x: 440, y: 700, width: 480, height: 1000, style: { rotateX: 15, rotateY: -15, rotation: 8 }, platform: 'ios' }
+      ]
+    }),
+    bs(3, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'pn3-glow', type: 'blob', x: 140, y: 550, width: 800, height: 800, style: { color: '#06b6d4', opacity: 0.2, borderRadius: '50%' } },
+        { id: 'pn3-title', type: 'text', x: 80, y: 200, width: 920, height: 100, content: 'Trusted Worldwide', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'pn3-b1', type: 'badge', x: 150, y: 340, width: 350, height: 80, content: '10M+ Users', style: { bgColor: '#1e293b', color: '#06b6d4', fontSize: 26, fontWeight: '800', borderRadius: 20 } },
+        { id: 'pn3-b2', type: 'badge', x: 550, y: 340, width: 350, height: 80, content: '500K+ Reviews', style: { bgColor: '#1e293b', color: '#06b6d4', fontSize: 26, fontWeight: '800', borderRadius: 20 } },
+        { id: 'pn3-device', type: 'device', x: 260, y: 500, width: 560, height: 1180, style: { rotateX: 20, rotateY: 0, rotation: 0 }, platform: 'ios' }
+      ]
+    }),
+    bs(4, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'pn4-title', type: 'text', x: 80, y: 240, width: 920, height: 100, content: 'Blazing Fast', style: { fontSize: 90, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'pn4-sub', type: 'text', x: 80, y: 360, width: 920, height: 60, content: 'Zero lag. Pure performance.', style: { fontSize: 36, color: '#94a3b8', align: 'center' } },
+        { id: 'pn4-bolt', type: 'text', x: 490, y: 100, width: 100, height: 100, content: '⚡', style: { fontSize: 60, align: 'center' } },
+        { id: 'pn4-device1', type: 'device', x: 380, y: 450, width: 440, height: 920, style: { rotateX: 25, rotateY: 10, rotation: 0 }, platform: 'ios' },
+        { id: 'pn4-device2', type: 'device', x: 240, y: 700, width: 600, height: 1260, style: { rotateX: 15, rotateY: -10, rotation: 0 }, platform: 'ios' }
+      ]
+    }),
+    bs(5, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'pn5-glow', type: 'blob', x: -100, y: 800, width: 1280, height: 1280, style: { color: '#06b6d4', opacity: 0.2, borderRadius: '50%' } },
+        { id: 'pn5-title', type: 'text', x: 80, y: 250, width: 920, height: 100, content: 'Join Millions Today', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'pn5-device', type: 'device', x: 280, y: 480, width: 520, height: 1090, style: { rotateX: 5, rotateY: 0, rotation: 0 }, platform: 'ios' },
+        { id: 'pn5-av', type: 'badge', x: 390, y: 1650, width: 300, height: 60, content: '👥 10M+ users', style: { bgColor: 'rgba(255,255,255,0.1)', color: '#fff', fontSize: 20, borderRadius: 30 } },
+        { id: 'pn5-app', type: 'badge', x: 280, y: 1750, width: 240, height: 75, content: 'App Store', style: { bgColor: '#06b6d4', color: '#000000', fontSize: 22, fontWeight: '700', borderRadius: 20 } },
+        { id: 'pn5-gp', type: 'badge', x: 550, y: 1750, width: 240, height: 75, content: 'Google Play', style: { bgColor: '#06b6d4', color: '#000000', fontSize: 22, fontWeight: '700', borderRadius: 20 } }
+      ]
+    })
+  ]
+}
+
+// ─── 3D COLORFUL BLAST KIT ────────────────────────────────────
+export function buildMockupColorfulBlast(t) {
+  const bg = '#ec4899' // fallback, using big blob for gradient
+  const W = 1080
+  const H = 1920
+
+  return [
+    bs(1, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'cb1-bg', type: 'blob', x: -500, y: -500, width: 2080, height: 2920, style: { color: '#7c3aed', opacity: 1, borderRadius: '0px' } }, // Gradient effect layer
+        { id: 'cb1-conf1', type: 'badge', x: 150, y: 150, width: 50, height: 50, content: '', style: { bgColor: '#fcd34d', borderRadius: 25 } },
+        { id: 'cb1-conf2', type: 'badge', x: 850, y: 350, width: 40, height: 40, content: '', style: { bgColor: '#38bdf8', borderRadius: 20 } },
+        { id: 'cb1-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Your Life. Simplified.', style: { fontSize: 84, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'cb1-device1', type: 'device', x: 100, y: 800, width: 440, height: 920, style: { rotateX: 10, rotateY: 25, rotation: -10 }, platform: 'ios' },
+        { id: 'cb1-device2', type: 'device', x: 400, y: 500, width: 560, height: 1180, style: { rotateX: 25, rotateY: -15, rotation: 8 }, platform: 'ios' },
+        { id: 'cb1-badge', type: 'badge', x: 700, y: 1600, width: 240, height: 160, content: '🏆\nEditors\nChoice', style: { bgColor: '#fff', color: '#7c3aed', fontSize: 24, fontWeight: '800', borderRadius: 30 } }
+      ]
+    }),
+    bs(2, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'cb2-bg', type: 'blob', x: -500, y: -500, width: 2080, height: 2920, style: { color: '#7c3aed', opacity: 1, borderRadius: '0px' } },
+        { id: 'cb2-title', type: 'text', x: 80, y: 200, width: 920, height: 100, content: 'Packed With Features', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'cb2-sub', type: 'text', x: 80, y: 320, width: 920, height: 60, content: 'You asked. We built it.', style: { fontSize: 36, color: '#fbcfe8', align: 'center' } },
+        { id: 'cb2-device1', type: 'device', x: 120, y: 650, width: 500, height: 1050, style: { rotateX: -15, rotateY: 25, rotation: -12 }, platform: 'ios' },
+        { id: 'cb2-device2', type: 'device', x: 480, y: 550, width: 500, height: 1050, style: { rotateX: 15, rotateY: -25, rotation: 12 }, platform: 'ios' },
+        { id: 'cb2-pill1', type: 'badge', x: 150, y: 450, width: 180, height: 60, content: 'Fast 🚀', style: { bgColor: '#fcd34d', color: '#000', fontSize: 20, fontWeight: '700', borderRadius: 30 } },
+        { id: 'cb2-pill2', type: 'badge', x: 750, y: 900, width: 180, height: 60, content: 'Secure 🔒', style: { bgColor: '#38bdf8', color: '#fff', fontSize: 20, fontWeight: '700', borderRadius: 30 } }
+      ]
+    }),
+    bs(3, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'cb3-bg', type: 'blob', x: -500, y: -500, width: 2080, height: 2920, style: { color: '#7c3aed', opacity: 1, borderRadius: '0px' } },
+        { id: 'cb3-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Join The Community', style: { fontSize: 80, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'cb3-sub', type: 'badge', x: 340, y: 360, width: 400, height: 75, content: '2M+ Active Users', style: { bgColor: '#fff', color: '#ec4899', fontSize: 24, fontWeight: '800', borderRadius: 40 } },
+        { id: 'cb3-device1', type: 'device', x: 80, y: 700, width: 400, height: 840, style: { rotateX: 15, rotateY: 20, rotation: -8 }, platform: 'ios' },
+        { id: 'cb3-device2', type: 'device', x: 600, y: 700, width: 400, height: 840, style: { rotateX: 15, rotateY: -20, rotation: 8 }, platform: 'ios' },
+        { id: 'cb3-device3', type: 'device', x: 300, y: 500, width: 480, height: 1000, style: { rotateX: 5, rotateY: 0, rotation: 0 }, platform: 'ios' },
+        { id: 'cb3-av1', type: 'badge', x: 150, y: 500, width: 80, height: 80, content: '👱‍♀️', style: { bgColor: '#fcd34d', fontSize: 40, borderRadius: 40 } },
+        { id: 'cb3-av2', type: 'badge', x: 850, y: 500, width: 80, height: 80, content: '👨🏽', style: { bgColor: '#38bdf8', fontSize: 40, borderRadius: 40 } }
+      ]
+    }),
+    bs(4, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'cb4-bg', type: 'blob', x: -500, y: -500, width: 2080, height: 2920, style: { color: '#7c3aed', opacity: 1, borderRadius: '0px' } },
+        { id: 'cb4-conf1', type: 'text', x: 100, y: 500, width: 880, height: 880, content: '🎉', style: { fontSize: 400, align: 'center' } },
+        { id: 'cb4-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Deals Every Day', style: { fontSize: 84, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'cb4-badge', type: 'badge', x: 290, y: 350, width: 500, height: 90, content: 'UP TO 70% OFF', style: { bgColor: '#facc15', color: '#000', fontSize: 36, fontWeight: '900', borderRadius: 20 } },
+        { id: 'cb4-device', type: 'device', x: 240, y: 550, width: 600, height: 1260, style: { rotateX: 15, rotateY: 0, rotation: 0 }, platform: 'ios' }
+      ]
+    }),
+    bs(5, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'cb5-bg', type: 'blob', x: -500, y: -500, width: 2080, height: 2920, style: { color: '#7c3aed', opacity: 1, borderRadius: '0px' } },
+        { id: 'cb5-title', type: 'text', x: 80, y: 250, width: 920, height: 100, content: 'Get Started Free', style: { fontSize: 84, fontWeight: '900', color: '#ffffff', align: 'center' } },
+        { id: 'cb5-sub', type: 'text', x: 80, y: 370, width: 920, height: 60, content: 'No credit card needed', style: { fontSize: 36, color: '#fbcfe8', align: 'center' } },
+        { id: 'cb5-arr', type: 'text', x: 490, y: 460, width: 100, height: 100, content: '⬇️', style: { fontSize: 60, align: 'center' } },
+        { id: 'cb5-device1', type: 'device', x: 150, y: 650, width: 440, height: 920, style: { rotateX: 10, rotateY: 15, rotation: -8 }, platform: 'ios' },
+        { id: 'cb5-device2', type: 'device', x: 490, y: 800, width: 460, height: 960, style: { rotateX: 10, rotateY: -15, rotation: 8 }, platform: 'ios' },
+        { id: 'cb5-app', type: 'badge', x: 150, y: 1720, width: 360, height: 90, content: 'App Store', style: { bgColor: '#ffffff', color: '#7c3aed', fontSize: 26, fontWeight: '800', borderRadius: 24 } },
+        { id: 'cb5-gp', type: 'badge', x: 570, y: 1720, width: 360, height: 90, content: 'Google Play', style: { bgColor: '#ffffff', color: '#7c3aed', fontSize: 26, fontWeight: '800', borderRadius: 24 } }
+      ]
+    })
+  ]
+}
+
+// ─── 3D GLASS MORPHISM KIT ────────────────────────────────────
+export function buildMockupGlassMorphism(t) {
+  const bg = '#e0f2fe'
+  const W = 1080
+  const H = 1920
+
+  return [
+    bs(1, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'gm1-blob', type: 'blob', x: -100, y: -100, width: 1200, height: 1200, style: { color: '#ffffff', opacity: 0.8, borderRadius: '50%' } },
+        { id: 'gm1-card', type: 'badge', x: 240, y: 700, width: 600, height: 900, content: '', style: { bgColor: 'rgba(255,255,255,0.4)', borderRadius: 40 } },
+        { id: 'gm1-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Pure. Simple. Powerful.', style: { fontSize: 72, fontWeight: '800', color: '#1e293b', align: 'center' } },
+        { id: 'gm1-sub', type: 'text', x: 80, y: 340, width: 920, height: 60, content: 'The app everyone is talking about', style: { fontSize: 32, color: '#475569', align: 'center' } },
+        { id: 'gm1-device', type: 'device', x: 300, y: 550, width: 480, height: 1000, style: { rotateX: 5, rotateY: -15, rotation: 0 }, platform: 'ios' }
+      ]
+    }),
+    bs(2, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'gm2-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Beautiful By Design', style: { fontSize: 80, fontWeight: '800', color: '#1e293b', align: 'center' } },
+        { id: 'gm2-sub', type: 'text', x: 80, y: 340, width: 920, height: 60, content: 'Every pixel. Perfected.', style: { fontSize: 36, color: '#475569', align: 'center' } },
+        { id: 'gm2-card1', type: 'badge', x: 100, y: 700, width: 280, height: 280, content: '✨ UI', style: { bgColor: 'rgba(255,255,255,0.6)', color: '#1e293b', fontSize: 36, fontWeight: '700', borderRadius: 40 } },
+        { id: 'gm2-card2', type: 'badge', x: 700, y: 1000, width: 280, height: 280, content: '🚀 UX', style: { bgColor: 'rgba(255,255,255,0.6)', color: '#1e293b', fontSize: 36, fontWeight: '700', borderRadius: 40 } },
+        { id: 'gm2-device', type: 'device', x: 340, y: 550, width: 400, height: 840, style: { rotateX: 10, rotateY: 10, rotation: 0 }, platform: 'ios' }
+      ]
+    }),
+    bs(3, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'gm3-blob', type: 'blob', x: 200, y: 500, width: 680, height: 680, style: { color: '#bae6fd', opacity: 0.8, borderRadius: '50%' } },
+        { id: 'gm3-title', type: 'text', x: 80, y: 200, width: 920, height: 100, content: 'Your Privacy Matters', style: { fontSize: 76, fontWeight: '800', color: '#1e293b', align: 'center' } },
+        { id: 'gm3-sub', type: 'text', x: 80, y: 320, width: 920, height: 60, content: '100% secure. Always encrypted.', style: { fontSize: 32, color: '#475569', align: 'center' } },
+        { id: 'gm3-icon', type: 'text', x: 490, y: 400, width: 100, height: 100, content: '🔒', style: { fontSize: 60, align: 'center' } },
+        { id: 'gm3-card', type: 'badge', x: 290, y: 1100, width: 500, height: 160, content: 'Shield Protected', style: { bgColor: 'rgba(255,255,255,0.7)', color: '#0f172a', fontSize: 36, fontWeight: '800', borderRadius: 30 } },
+        { id: 'gm3-device', type: 'device', x: 300, y: 500, width: 480, height: 1000, style: { rotateX: 0, rotateY: 0, rotation: 0 }, platform: 'ios' }
+      ]
+    }),
+    bs(4, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'gm4-title', type: 'text', x: 80, y: 220, width: 920, height: 100, content: 'Works Everywhere', style: { fontSize: 80, fontWeight: '800', color: '#1e293b', align: 'center' } },
+        { id: 'gm4-sub', type: 'text', x: 80, y: 340, width: 920, height: 60, content: 'Syncs across all your devices', style: { fontSize: 36, color: '#475569', align: 'center' } },
+        { id: 'gm4-line', type: 'blob', x: 340, y: 950, width: 400, height: 10, style: { color: '#0ea5e9', opacity: 0.5, borderRadius: '5px' } },
+        { id: 'gm4-icon', type: 'text', x: 490, y: 420, width: 100, height: 100, content: '☁️', style: { fontSize: 60, align: 'center' } },
+        { id: 'gm4-device1', type: 'device', x: 120, y: 600, width: 380, height: 780, style: { rotateX: 5, rotateY: 15, rotation: 0 }, platform: 'ios' },
+        { id: 'gm4-device2', type: 'device', x: 580, y: 600, width: 380, height: 780, style: { rotateX: 5, rotateY: -15, rotation: 0 }, platform: 'ios' }
+      ]
+    }),
+    bs(5, {
+      backgroundColor: bg, width: W, height: H,
+      elements: [
+        { id: 'gm5-blob', type: 'blob', x: 240, y: 650, width: 600, height: 600, style: { color: '#e0f2fe', opacity: 1, borderRadius: '50%', filter: 'blur(50px)' } },
+        { id: 'gm5-title', type: 'text', x: 80, y: 200, width: 920, height: 100, content: 'Download For Free', style: { fontSize: 80, fontWeight: '800', color: '#1e293b', align: 'center' } },
+        { id: 'gm5-sub', type: 'text', x: 80, y: 320, width: 920, height: 60, content: 'Available on iOS and Android', style: { fontSize: 36, color: '#475569', align: 'center' } },
+        { id: 'gm5-device', type: 'device', x: 290, y: 450, width: 500, height: 1050, style: { rotateX: 10, rotateY: 0, rotation: 0 }, platform: 'ios' },
+        { id: 'gm5-card', type: 'badge', x: 240, y: 1550, width: 600, height: 250, content: '', style: { bgColor: 'rgba(255,255,255,0.5)', borderRadius: 40 } },
+        { id: 'gm5-app', type: 'badge', x: 290, y: 1600, width: 500, height: 75, content: 'Get it on App Store', style: { bgColor: '#1e293b', color: '#ffffff', fontSize: 24, fontWeight: '700', borderRadius: 24 } },
+        { id: 'gm5-gp', type: 'badge', x: 290, y: 1700, width: 500, height: 75, content: 'Get it on Google Play', style: { bgColor: '#1e293b', color: '#ffffff', fontSize: 24, fontWeight: '700', borderRadius: 24 } }
+      ]
+    })
+  ]
+}
+
 export const MOCKUP_BUILDERS = {
   'mockup-clean-cover': buildMockupCleanCover,
   'mockup-iphone14-pro': buildMockupIphone14Pro,
@@ -512,4 +838,10 @@ export const MOCKUP_BUILDERS = {
   'mockup-float-perspective': buildMockupFloatPerspective,
   'mockup-geometric-pop': buildMockupGeometricPop,
   'mockup-abstract-waves': buildMockupAbstractWaves,
+  'play-3d-isometric': buildPlay3DIsometric,
+  'play-3d-panoramic': buildPlay3DPanoramic,
+  'mockup-dark-float': buildMockupDarkFloat,
+  'mockup-perspective-navy': buildMockupPerspectiveNavy,
+  'mockup-colorful-blast': buildMockupColorfulBlast,
+  'mockup-glass-morphism': buildMockupGlassMorphism,
 }

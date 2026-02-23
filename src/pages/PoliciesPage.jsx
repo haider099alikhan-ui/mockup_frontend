@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+import ReactQuill from 'react-quill-new'
+import 'react-quill-new/dist/quill.snow.css'
 import { api } from '../services/api'
-import { Plus, Trash2, ExternalLink, Save, ArrowLeft, Copy, Check, Info, FileText, Settings2, Globe, Clock, ShieldCheck, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { Plus, Trash2, ExternalLink, Save, ArrowLeft, Copy, Check, Info, FileText, Settings2, Globe, Clock, ShieldCheck, Loader2 } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 import { useToast } from '../components/Toast'
 import HostedDocsLayout from '../components/dashboard/HostedDocsLayout'
 
@@ -16,6 +17,7 @@ export default function PoliciesPage() {
     const [isLoading, setIsLoading] = useState(true)
     const [editingDoc, setEditingDoc] = useState(null)
     const [showNewModal, setShowNewModal] = useState(false)
+    const { profile } = useAuth()
     const [isSaving, setIsSaving] = useState(false)
 
     const [newDocForm, setNewDocForm] = useState({
@@ -100,17 +102,26 @@ export default function PoliciesPage() {
         }
     }
 
-    const copyLink = (docId) => {
-        navigator.clipboard.writeText(`${getBackendUrl()}/p/${docId}`)
+    const copyLink = (docType) => {
+        if (!profile?.id) return
+        const docMap = { privacy_policy: 'privacy-policy', terms: 'terms', dmca: 'dmca', other: 'legal' }
+        navigator.clipboard.writeText(`${getBackendUrl()}/u/${profile.id}/${docMap[docType] || 'doc'}`)
         toast('Link copied to clipboard', 'success')
+    }
+
+    const handleViewProfile = () => {
+        if (!profile?.id) return
+        window.open(`${getBackendUrl()}/u/${profile.id}`, '_blank')
     }
 
     const DocumentCard = ({ doc }) => {
         const [copied, setCopied] = useState(false)
-        const publicUrl = `${getBackendUrl()}/p/${doc.id}`
+        const docMap = { privacy_policy: 'privacy-policy', terms: 'terms', dmca: 'dmca', other: 'legal' }
+        const publicUrl = profile?.id ? `${getBackendUrl()}/u/${profile.id}/${docMap[doc.type] || 'doc'}` : null
 
         const handleCopy = (e) => {
             e.stopPropagation()
+            if (!publicUrl) return
             navigator.clipboard.writeText(publicUrl)
             setCopied(true)
             toast('Link copied to clipboard!', 'success')
@@ -165,10 +176,13 @@ export default function PoliciesPage() {
                 {doc.is_public && (
                     <div className="mt-2 flex gap-2 pt-5 border-t border-gray-800/60">
                         <a
-                            href={publicUrl}
-                            target="_blank"
+                            href={publicUrl || '#'}
+                            target={publicUrl ? '_blank' : '_self'}
                             rel="noreferrer"
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleViewProfile(e)
+                            }}
                             className="flex items-center justify-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 transition-colors bg-blue-500/10 hover:bg-blue-500/20 px-4 py-2 rounded-lg flex-1 font-medium"
                         >
                             <ExternalLink className="w-3.5 h-3.5" />
@@ -214,7 +228,7 @@ export default function PoliciesPage() {
                         <div className="flex items-center gap-3">
                             {editingDoc.is_public && (
                                 <button
-                                    onClick={() => copyLink(editingDoc.id)}
+                                    onClick={() => copyLink(editingDoc.type)}
                                     className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white bg-[#111] hover:bg-gray-800 border border-gray-800 px-4 py-2.5 rounded-lg transition-colors"
                                 >
                                     <Copy className="w-4 h-4" />
@@ -373,17 +387,26 @@ export default function PoliciesPage() {
             <div className="max-w-6xl mx-auto py-4">
 
                 {/* Header Actions */}
-                <div className="flex items-center justify-between mb-8">
-                    <p className="text-gray-400 text-sm max-w-xl leading-relaxed">
+                <div className="flex items-center justify-between mb-8 gap-4">
+                    <p className="text-gray-400 text-sm max-w-xl leading-relaxed hidden md:block">
                         These documents are hosted securely and comply with formatting standards for App Store and Google Play submissions.
                     </p>
-                    <button
-                        onClick={() => setShowNewModal(true)}
-                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20"
-                    >
-                        <Plus className="w-4 h-4" />
-                        New Document
-                    </button>
+                    <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+                        <button
+                            onClick={handleViewProfile}
+                            className="flex items-center gap-2 bg-[#161616] hover:bg-gray-800 border border-gray-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap whitespace-nowrap"
+                        >
+                            <Globe className="w-4 h-4 text-blue-400" />
+                            View Public Profile
+                        </button>
+                        <button
+                            onClick={() => setShowNewModal(true)}
+                            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 whitespace-nowrap"
+                        >
+                            <Plus className="w-4 h-4" />
+                            New Document
+                        </button>
+                    </div>
                 </div>
 
                 {isLoading ? (
