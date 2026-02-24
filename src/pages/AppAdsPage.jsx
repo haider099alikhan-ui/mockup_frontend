@@ -8,7 +8,7 @@ import { Save, Info, ExternalLink, Check, Copy, Loader2 } from 'lucide-react'
 
 function getBackendUrl() {
     if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
-    if (import.meta.env.DEV) return 'http://localhost:8787'
+   
     return 'https://mockupcreator-api.haider099alikhan-ui.workers.dev'
 }
 
