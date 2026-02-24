@@ -12,7 +12,10 @@ export function AuthProvider({ children }) {
     // Fetch user profile from backend
     const fetchProfile = async (accessToken) => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8787' : 'https://mockupcreator-api.haider099alikhan-ui.workers.dev')
+            let apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8787' : 'https://mockupcreator-api.haider099alikhan-ui.workers.dev')
+            if (!import.meta.env.DEV && apiUrl.includes('localhost')) {
+                apiUrl = 'https://mockupcreator-api.haider099alikhan-ui.workers.dev'
+            }
             const res = await fetch(`${apiUrl}/api/user/profile`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             })
