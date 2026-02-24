@@ -16,7 +16,8 @@ function getBackendUrl() {
 
 // Always use production URL for public-facing links (not localhost)
 function getPublicUrl() {
-    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+    const envUrl = import.meta.env.VITE_API_URL
+    if (envUrl && !envUrl.includes('localhost')) return envUrl
     return 'https://mockupcreator-api.haider099alikhan-ui.workers.dev'
 }
 
