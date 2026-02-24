@@ -147,7 +147,7 @@ function ProjectsPage() {
                             A
                         </div>
                         <span className="text-[15px] font-bold tracking-tight text-gray-900">
-                            AppLaunchpad
+                            ShotMock
                         </span>
                     </button>
 
@@ -247,7 +247,7 @@ function ProjectsPage() {
                             A
                         </div>
                         <span className="text-sm font-bold text-gray-900">
-                            AppLaunchpad
+                            ShotMock
                         </span>
                     </div>
                     <div className="flex items-center gap-6 text-xs text-gray-400">
@@ -259,7 +259,7 @@ function ProjectsPage() {
                             Projects
                         </button>
                         <span>·</span>
-                        <span>© {new Date().getFullYear()} AppLaunchpad</span>
+                        <span>© {new Date().getFullYear()} ShotMock</span>
                     </div>
                 </div>
             </footer>

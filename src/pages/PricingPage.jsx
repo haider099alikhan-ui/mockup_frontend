@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Check, X, ChevronDown, ChevronUp, Crown, Zap, Shield, Palette, Download, Users, Headphones, ArrowLeft } from 'lucide-react'
+import { Check, X, ChevronDown, Crown, Zap, Shield, Palette, Download, Users, ArrowLeft, Sparkles, ArrowRight } from 'lucide-react'
 
 const PLANS = {
     monthly: { price: 29, period: 'month', label: 'Monthly' },
@@ -37,23 +37,30 @@ const COMPARISON = [
 ]
 
 const FAQ = [
-    {
-        q: 'Can I use the free plan forever?',
-        a: 'Yes! The free plan has no time limit. You can create up to 3 projects and export 5 times per month for free, forever.',
-    },
-    {
-        q: 'Can I cancel my Pro subscription?',
-        a: 'Absolutely. You can cancel anytime from your account settings. Your Pro features will remain active until the end of your billing period.',
-    },
-    {
-        q: 'What payment methods do you accept?',
-        a: 'We accept all major credit cards (Visa, Mastercard, Amex) and debit cards through Stripe, our secure payment processor.',
-    },
-    {
-        q: 'Do I need an account to use the app?',
-        a: 'An account is needed to save your projects to the cloud and export. Sign up is free and takes 10 seconds.',
-    },
+    { q: 'Can I use the free plan forever?', a: 'Yes! The free plan has no time limit. You can create up to 3 projects and export 5 times per month for free, forever.' },
+    { q: 'Can I cancel my Pro subscription?', a: 'Absolutely. You can cancel anytime from your account settings. Your Pro features will remain active until the end of your billing period.' },
+    { q: 'What payment methods do you accept?', a: 'We accept all major credit cards (Visa, Mastercard, Amex) and debit cards through Stripe, our secure payment processor.' },
+    { q: 'Do I need an account to use the app?', a: 'An account is needed to save your projects to the cloud and export. Sign up is free and takes 10 seconds.' },
 ]
+
+function FaqItem({ item, index, openFaq, setOpenFaq }) {
+    const isOpen = openFaq === index
+    return (
+        <div className={`overflow-hidden rounded-2xl border transition-all duration-200 ${isOpen ? 'border-blue-200 bg-blue-50/50' : 'border-gray-100 bg-white hover:border-gray-200'}`}>
+            <button
+                type="button"
+                onClick={() => setOpenFaq(isOpen ? null : index)}
+                className="flex w-full items-center justify-between gap-4 px-6 py-4.5 text-left"
+            >
+                <span className={`text-sm font-semibold ${isOpen ? 'text-blue-700' : 'text-gray-900'}`}>{item.q}</span>
+                <ChevronDown className={`h-4 w-4 flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-blue-500' : 'text-gray-400'}`} />
+            </button>
+            <div className={`overflow-hidden transition-all duration-300 ease-out ${isOpen ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <p className="px-6 pb-5 text-sm leading-relaxed text-gray-600">{item.a}</p>
+            </div>
+        </div>
+    )
+}
 
 export default function PricingPage() {
     const navigate = useNavigate()
@@ -64,83 +71,78 @@ export default function PricingPage() {
     const plan = PLANS[billing]
 
     return (
-        <div className="min-h-screen bg-gray-950 text-white">
-            {/* Header */}
-            <header className="flex items-center justify-between border-b border-gray-800 px-6 py-3">
-                <button
-                    type="button"
-                    onClick={() => navigate('/')}
-                    className="flex items-center gap-2.5"
-                >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500 text-sm font-bold text-white">A</div>
-                    <span className="text-[15px] font-bold text-white">AppLaunchpad</span>
+        <div className="min-h-screen bg-gray-50 text-gray-900">
+            {/* ─── Header ─── */}
+            <header className="flex items-center justify-between border-b border-gray-100 bg-white/90 px-6 py-3 backdrop-blur-xl">
+                <button type="button" onClick={() => navigate('/')} className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-black text-white shadow-md shadow-blue-500/25">A</div>
+                    <span className="text-[15px] font-bold text-gray-900">ShotMock</span>
                 </button>
-                <button
-                    type="button"
-                    onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-white"
-                >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back
+                <button type="button" onClick={() => navigate(-1)} className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900">
+                    <ArrowLeft className="h-4 w-4" />Back
                 </button>
             </header>
 
-            <main className="mx-auto max-w-5xl px-6 py-16">
-                {/* Title */}
-                <div className="mb-12 text-center">
-                    <h1 className="mb-3 text-4xl font-extrabold tracking-tight md:text-5xl">
-                        Simple, transparent{' '}
-                        <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">pricing</span>
+            <main className="mx-auto max-w-5xl px-6 py-20">
+                {/* ─── Title ─── */}
+                <div className="mb-14 text-center">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold text-blue-700 ring-1 ring-blue-100">
+                        <Sparkles className="h-3.5 w-3.5" />
+                        Simple Pricing
+                    </div>
+                    <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl">
+                        Start free.{' '}
+                        <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Upgrade when ready.</span>
                     </h1>
-                    <p className="text-lg text-gray-400">
-                        Start free. Upgrade when you need more power.
-                    </p>
+                    <p className="text-lg text-gray-500">No hidden fees. Cancel anytime.</p>
                 </div>
 
-                {/* Billing toggle */}
-                <div className="mb-10 flex items-center justify-center gap-3">
-                    <button
-                        type="button"
-                        onClick={() => setBilling('monthly')}
-                        className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${billing === 'monthly' ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-gray-300'}`}
-                    >
-                        Monthly
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setBilling('annual')}
-                        className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all ${billing === 'annual' ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-gray-300'}`}
-                    >
-                        Annually
-                        <span className="rounded-full bg-green-500/20 px-2.5 py-0.5 text-xs font-bold text-green-400">
-                            Save 48%
-                        </span>
-                    </button>
+                {/* ─── Billing toggle ─── */}
+                <div className="mb-12 flex justify-center">
+                    <div className="inline-flex items-center rounded-full bg-gray-100 p-1 shadow-inner">
+                        <button
+                            type="button"
+                            onClick={() => setBilling('monthly')}
+                            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all duration-200 ${billing === 'monthly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                        >
+                            Monthly
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setBilling('annual')}
+                            className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-all duration-200 ${billing === 'annual' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                        >
+                            Annually
+                            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Save 48%</span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Plan cards */}
-                <div className="mb-20 grid gap-6 md:grid-cols-2">
+                {/* ─── Plan cards ─── */}
+                <div className="mb-24 grid gap-6 md:grid-cols-2">
                     {/* Free */}
-                    <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-8">
-                        <div className="mb-6">
-                            <h2 className="mb-1 text-xl font-bold text-white">Free</h2>
-                            <p className="text-sm text-gray-400">To get started</p>
+                    <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+                        <div className="mb-8">
+                            <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gray-400">Free</p>
+                            <h2 className="text-2xl font-extrabold text-gray-900">To get started</h2>
                         </div>
-                        <div className="mb-6">
-                            <span className="text-4xl font-extrabold text-white">$0</span>
-                            <span className="text-gray-400"> / month</span>
+                        <div className="mb-8 flex items-baseline gap-1">
+                            <span className="text-5xl font-extrabold text-gray-900">$0</span>
+                            <span className="text-gray-400">/ month</span>
                         </div>
                         <button
                             type="button"
                             onClick={() => navigate(isAuthenticated ? '/' : '/auth?mode=signup')}
-                            className="mb-8 w-full rounded-xl border border-gray-700 bg-gray-800 py-3 text-sm font-semibold text-white transition-all hover:bg-gray-700 active:scale-[0.98]"
+                            className="mb-8 w-full rounded-xl border-2 border-gray-200 bg-gray-50 py-3 text-sm font-bold text-gray-700 transition-all hover:border-gray-300 hover:bg-gray-100 active:scale-[0.98]"
                         >
-                            {isAuthenticated ? 'Current Plan' : 'Get Started Free'}
+                            {isAuthenticated ? '✓ Current Plan' : 'Get Started Free'}
                         </button>
-                        <ul className="space-y-3">
+                        <ul className="space-y-3.5">
                             {FREE_FEATURES.map((f) => (
-                                <li key={f.text} className="flex items-center gap-3 text-sm text-gray-300">
-                                    <f.icon className="h-4 w-4 text-gray-500" />
+                                <li key={f.text} className="flex items-center gap-3 text-sm text-gray-600">
+                                    <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-gray-100">
+                                        <Check className="h-3 w-3 text-gray-500" />
+                                    </div>
                                     {f.text}
                                 </li>
                             ))}
@@ -148,74 +150,77 @@ export default function PricingPage() {
                     </div>
 
                     {/* Pro */}
-                    <div className="relative rounded-2xl border border-blue-500/30 bg-gradient-to-b from-blue-500/5 to-purple-500/5 p-8">
-                        <div className="absolute -top-3 right-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-1 text-xs font-bold text-white shadow-lg">
-                            MOST POPULAR
+                    <div className="relative rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 p-8 text-white shadow-2xl shadow-blue-500/30">
+                        {/* Shine overlay */}
+                        <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-white/15 to-transparent" />
+                        <div className="absolute -top-3.5 left-6 rounded-full bg-amber-400 px-4 py-1 text-[11px] font-extrabold uppercase tracking-wider text-amber-900 shadow-lg">
+                            ✦ Most Popular
                         </div>
-                        <div className="mb-6">
-                            <h2 className="mb-1 text-xl font-bold text-white">Pro</h2>
-                            <p className="text-sm text-gray-400">For professionals</p>
+                        <div className="relative">
+                            <div className="mb-8">
+                                <p className="mb-1 text-xs font-bold uppercase tracking-widest text-blue-200">Pro</p>
+                                <h2 className="text-2xl font-extrabold text-white">For professionals</h2>
+                            </div>
+                            <div className="mb-2 flex items-baseline gap-1">
+                                <span className="text-5xl font-extrabold text-white">${plan.price}</span>
+                                <span className="text-blue-200">/ {plan.period}</span>
+                            </div>
+                            {billing === 'annual' && (
+                                <p className="mb-8 text-xs text-blue-200">Billed at {plan.billed}</p>
+                            )}
+                            {billing === 'monthly' && <div className="mb-8" />}
+                            <button
+                                type="button"
+                                onClick={() => { if (!isAuthenticated) navigate('/auth?mode=signup') }}
+                                disabled={isPro}
+                                className="mb-8 w-full rounded-xl bg-white py-3 text-sm font-extrabold text-indigo-700 shadow-lg transition-all hover:bg-blue-50 active:scale-[0.98] disabled:opacity-60"
+                            >
+                                {isPro ? '✓ Current Plan' : 'Upgrade to Pro'}
+                            </button>
+                            <ul className="space-y-3.5">
+                                {PRO_FEATURES.map((f) => (
+                                    <li key={f.text} className="flex items-center gap-3 text-sm text-white/90">
+                                        <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-white/20">
+                                            <Check className="h-3 w-3 text-white" />
+                                        </div>
+                                        {f.text}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <div className="mb-1 flex items-baseline gap-1">
-                            <span className="text-4xl font-extrabold text-white">${plan.price}</span>
-                            <span className="text-gray-400"> / {plan.period}</span>
-                        </div>
-                        {billing === 'annual' && (
-                            <p className="mb-6 text-xs text-gray-500">Billed at {plan.billed}</p>
-                        )}
-                        {billing === 'monthly' && <div className="mb-6" />}
-                        <button
-                            type="button"
-                            onClick={() => {
-                                if (!isAuthenticated) navigate('/auth?mode=signup')
-                                // TODO: Stripe checkout
-                            }}
-                            disabled={isPro}
-                            className="mb-8 w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:from-blue-500 hover:to-purple-500 active:scale-[0.98] disabled:opacity-50"
-                        >
-                            {isPro ? 'Current Plan' : 'Upgrade to Pro'}
-                        </button>
-                        <ul className="space-y-3">
-                            {PRO_FEATURES.map((f) => (
-                                <li key={f.text} className="flex items-center gap-3 text-sm text-white">
-                                    <f.icon className="h-4 w-4 text-blue-400" />
-                                    {f.text}
-                                </li>
-                            ))}
-                        </ul>
                     </div>
                 </div>
 
-                {/* Feature comparison */}
-                <div className="mb-20">
-                    <h2 className="mb-8 text-center text-2xl font-bold text-white">Compare plans</h2>
-                    <div className="overflow-hidden rounded-xl border border-gray-800">
+                {/* ─── Feature comparison ─── */}
+                <div className="mb-24">
+                    <h2 className="mb-8 text-center text-2xl font-extrabold text-gray-900">Compare plans</h2>
+                    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
                         <table className="w-full text-sm">
                             <thead>
-                                <tr className="border-b border-gray-800 bg-gray-900/50">
-                                    <th className="px-6 py-4 text-left font-medium text-gray-400">Feature</th>
-                                    <th className="px-6 py-4 text-center font-medium text-gray-400">Free</th>
-                                    <th className="px-6 py-4 text-center font-medium text-blue-400">Pro</th>
+                                <tr className="border-b border-gray-100 bg-gray-50/70">
+                                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-400">Feature</th>
+                                    <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-400">Free</th>
+                                    <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-indigo-600">Pro</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {COMPARISON.map((row, i) => (
-                                    <tr key={row.feature} className={i % 2 === 0 ? 'bg-gray-900/30' : ''}>
-                                        <td className="px-6 py-3.5 text-gray-300">{row.feature}</td>
+                            <tbody className="divide-y divide-gray-50">
+                                {COMPARISON.map((row) => (
+                                    <tr key={row.feature} className="transition-colors hover:bg-gray-50/50">
+                                        <td className="px-6 py-3.5 font-medium text-gray-700">{row.feature}</td>
                                         <td className="px-6 py-3.5 text-center">
                                             {typeof row.free === 'boolean'
                                                 ? row.free
-                                                    ? <Check className="mx-auto h-4 w-4 text-green-400" />
-                                                    : <X className="mx-auto h-4 w-4 text-gray-600" />
-                                                : <span className="text-gray-300">{row.free}</span>
+                                                    ? <Check className="mx-auto h-4 w-4 text-emerald-500" />
+                                                    : <X className="mx-auto h-4 w-4 text-gray-300" />
+                                                : <span className="font-medium text-gray-600">{row.free}</span>
                                             }
                                         </td>
                                         <td className="px-6 py-3.5 text-center">
                                             {typeof row.pro === 'boolean'
                                                 ? row.pro
-                                                    ? <Check className="mx-auto h-4 w-4 text-blue-400" />
-                                                    : <X className="mx-auto h-4 w-4 text-gray-600" />
-                                                : <span className="font-medium text-white">{row.pro}</span>
+                                                    ? <Check className="mx-auto h-4 w-4 text-indigo-500" />
+                                                    : <X className="mx-auto h-4 w-4 text-gray-300" />
+                                                : <span className="font-bold text-indigo-600">{row.pro}</span>
                                             }
                                         </td>
                                     </tr>
@@ -225,30 +230,31 @@ export default function PricingPage() {
                     </div>
                 </div>
 
-                {/* FAQ */}
-                <div className="mx-auto max-w-2xl">
-                    <h2 className="mb-8 text-center text-2xl font-bold text-white">Frequently asked questions</h2>
-                    <div className="space-y-3">
+                {/* ─── FAQ ─── */}
+                <div className="mx-auto mb-24 max-w-2xl">
+                    <h2 className="mb-8 text-center text-2xl font-extrabold text-gray-900">Frequently asked questions</h2>
+                    <div className="flex flex-col gap-3">
                         {FAQ.map((item, i) => (
-                            <div key={i} className="rounded-xl border border-gray-800 bg-gray-900/30">
-                                <button
-                                    type="button"
-                                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                                    className="flex w-full items-center justify-between px-6 py-4 text-left text-sm font-medium text-white"
-                                >
-                                    {item.q}
-                                    {openFaq === i
-                                        ? <ChevronUp className="h-4 w-4 text-gray-500" />
-                                        : <ChevronDown className="h-4 w-4 text-gray-500" />
-                                    }
-                                </button>
-                                {openFaq === i && (
-                                    <div className="border-t border-gray-800 px-6 py-4 text-sm leading-relaxed text-gray-400">
-                                        {item.a}
-                                    </div>
-                                )}
-                            </div>
+                            <FaqItem key={i} item={item} index={i} openFaq={openFaq} setOpenFaq={setOpenFaq} />
                         ))}
+                    </div>
+                </div>
+
+                {/* ─── Bottom CTA ─── */}
+                <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900 px-8 py-14 text-center">
+                    <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-blue-600/20 blur-3xl" />
+                    <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-violet-600/20 blur-3xl" />
+                    <div className="relative">
+                        <h2 className="mb-3 text-2xl font-extrabold text-white sm:text-3xl">Ready to create stunning screenshots?</h2>
+                        <p className="mb-8 text-gray-400">Join over 10,000 app developers using ShotMock.</p>
+                        <button
+                            type="button"
+                            onClick={() => navigate(isAuthenticated ? '/' : '/auth?mode=signup')}
+                            className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-extrabold text-gray-900 shadow-xl shadow-white/10 transition-all hover:-translate-y-0.5 hover:shadow-2xl active:scale-95"
+                        >
+                            {isAuthenticated ? 'Open Editor' : 'Start for Free'}
+                            <ArrowRight className="h-4 w-4" />
+                        </button>
                     </div>
                 </div>
             </main>

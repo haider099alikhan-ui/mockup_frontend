@@ -45,7 +45,7 @@ function SidebarPanel({
       className="flex h-full w-72 flex-col border-r border-gray-800"
       style={{ backgroundColor: 'var(--panel-bg)' }}
     >
-      <div className="scroll-smooth flex-1 overflow-y-auto border-l border-black/10 p-3 text-xs text-gray-200">
+      <div className="scroll-smooth flex-1 overflow-y-auto min-h-0 custom-scrollbar border-l border-black/10 p-3 text-xs text-gray-200">
         {showElementPanel ? (
           <div className="space-y-3">
             {showBulkEdit ? (
